@@ -31,30 +31,6 @@ u¿ytkownik i anonimowe, bogaty wybór motywów, ranking u¿ytkowników
 wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
 
-%package lang_polish
-Summary:	Add polish lang support
-Summary(pl):	Pakiet spolszczajacy forum phpBB
-Requires:	%{name} = %{version}
-Group:		Applications/Databases/Interfaces
-
-%description lang_polish
-Polish lang support.
-
-%description lang_polish -l pl
-Polska wersja jêzykowa phpBB.
-
-%package lang_english
-Summary:	Add english lang support
-Summary(pl):	Anglojêzyczna wersja forum phpBB
-Requires:	%{name} = %{version}
-Group:		Applications/Databases/Interfaces
-
-%description lang_english
-English lang support.
-
-%description lang_english -l pl
-Anglojêzyczna wersja forum phpBB.
-
 %prep
 %setup -q -n %{name}2
 
@@ -77,8 +53,6 @@ tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-%post
-echo "Don't forget to install language"
 
 %files
 %defattr(644,root,root,755)
@@ -100,12 +74,9 @@ echo "Don't forget to install language"
 %dir %{_phpdir}/images/avatars/*
 #%{_phpdir}/language/*.htm
 %dir %{_phpdir}/language/*.htm
-%{_phpdir}/templates
+%{_phpdir}/templates/*.htm
 
-%files lang_english
-%{_phpdir}/language/lang_english
-%{_phpdir}/templates/subSilver/images/lang_english/*.gif
-
-%files lang_polish
-%{_phpdir}/language/lang_polish
-%{_phpdir}/templates/subSilver/images/lang_polish/*.gif
+%lang(en) %{_phpdir}/language/lang_english
+%lang(en) %{_phpdir}/templates/subSilver/images/lang_english/*.gif
+%lang(pl) %{_phpdir}/language/lang_polish
+%lang(pl) %{_phpdir}/templates/subSilver/images/lang_polish/*.gif
