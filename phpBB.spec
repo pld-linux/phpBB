@@ -60,7 +60,7 @@ Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
 #%setup -q -n phpbb-php5
-%setup -c
+%setup -q -c
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -85,14 +85,14 @@ ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_phpdir}/config.php
 ln -sf %{_sysconfdir}/favicon.ico $RPM_BUILD_ROOT%{_phpdir}/favicon.ico
 ln -sf %{_sysconfdir}/robots.txt $RPM_BUILD_ROOT%{_phpdir}/robots.txt
 
-tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
-tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+tar zxf %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
+tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
-tar zxfv %{SOURCE3} -C $RPM_BUILD_ROOT%{_phpdir}/language/
-tar zxfv %{SOURCE4} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+tar zxf %{SOURCE3} -C $RPM_BUILD_ROOT%{_phpdir}/language/
+tar zxf %{SOURCE4} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
-tar zxfv %{SOURCE5} -C $RPM_BUILD_ROOT%{_phpdir}/language/
-tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+tar zxf %{SOURCE5} -C $RPM_BUILD_ROOT%{_phpdir}/language/
+tar zxf %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
 install %{SOURCE7} $RPM_BUILD_ROOT/etc/httpd/%{name}.conf
 
@@ -157,8 +157,8 @@ fi
 %files
 %defattr(644,root,root,755)
 %dir %{_sysconfdir}
-%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
-%config(noreplace) %verify(not size mtime md5) /etc/httpd/%{name}.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*
+%config(noreplace) %verify(not md5 mtime size) /etc/httpd/%{name}.conf
 %doc docs/*
 %attr(755,root,http) %dir %{_phpdir}
 %attr(640,root,http) %{_phpdir}/[!c]*.php
