@@ -6,6 +6,8 @@ Release:	2
 License:	GPL v2
 Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
+Source1:	http://prdownloads.sourceforge.net/phpbb/lang_polish.tar.gz
+Source2:	http://prdownloads.sourceforge.net/phpbb/subSilver_polish.tar.gz
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
 Requires:	webserver
@@ -59,6 +61,7 @@ Angielska wersja jezykowa phpBB
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,language,templates}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
@@ -70,8 +73,13 @@ cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
 
+tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
+tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+%post
+echo "Don't forget to install language"
 
 %files
 %defattr(644,root,root,755)
@@ -87,13 +95,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_phpdir}/includes/*.php
 %dir %{_phpdir}/images
 %{_phpdir}/images/*.gif
+%{_phpdir}/images/*.htm
 %dir %{_phpdir}/images/smiles
 %{_phpdir}/images/smiles/*.gif
-%{_phpdir}/language/*.htm
+#%{_phpdir}/language/*.htm
+%dir %{_phpdir}/language/*.htm
 %{_phpdir}/templates
 
 %files lang_english
 %{_phpdir}/language/lang_english
+%{_phpdir}/templates/subSilver/images/lang_english/*.gif
 
 %files lang_polish
-%{_phpdir}/language/lang_english
+%{_phpdir}/language/lang_polish
+%{_phpdir}/templates/subSilver/images/lang_polish/*.gif
