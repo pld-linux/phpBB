@@ -4,7 +4,7 @@ Name:		phpBB
 Version:	2.0.3
 Release:	5
 License:	GPL v2
-Group:		Applications/Databases/Interfaces
+Group:		Applications/WWW
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
 Source1:	http://prdownloads.sourceforge.net/phpbb/lang_polish.tar.gz
 Source2:	http://prdownloads.sourceforge.net/phpbb/subSilver_polish.tar.gz
