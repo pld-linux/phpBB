@@ -7,7 +7,6 @@ License:	GPL v2
 Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
 URL:		http://www.phpbb.com/
-Requires:	mysql
 Requires:	php-mysql >= 4.1.0
 Requires:	webserver
 BuildArch:	noarch
