@@ -14,7 +14,7 @@ Requires:	webserver
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_phpdir	/home/httpd/html/phpBB
+%define		_phpdir		/home/httpd/html/phpBB
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
@@ -38,30 +38,28 @@ Requires:	%{name} = %{version}
 Group:		Applications/Databases/Interfaces
 
 %description lang_polish
-Polish lang support
+Polish lang support.
 
 %description lang_polish -l pl
-Polska wersja jezykowa phpBB
+Polska wersja jêzykowa phpBB.
 
 %package lang_english
 Summary:	Add english lang support
-Summary(pl):	Anglojezyczna wersja forum phpBB
+Summary(pl):	Anglojêzyczna wersja forum phpBB
 Requires:	%{name} = %{version}
 Group:		Applications/Databases/Interfaces
 
 %description lang_english
-English lang support
+English lang support.
 
 %description lang_english -l pl
-Angielska wersja jezykowa phpBB
-
+Anglojêzyczna wersja forum phpBB.
 
 %prep
 %setup -q -n %{name}2
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,language,templates}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
