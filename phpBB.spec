@@ -174,6 +174,7 @@ fi
 %attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
 %attr(750,root,http) %dir %{_phpdir}/templates/subSilver/images
 %attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
+%attr(750,root,http) %dir %{_phpdir}/language
 %attr(640,root,http) %{_phpdir}/language/*.htm
 
 %lang(en) %{_phpdir}/language/lang_english
