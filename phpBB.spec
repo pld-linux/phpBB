@@ -55,7 +55,7 @@ Pakiet potrzebny do instalacji forum %{name}.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db{,schemas},images,includes,language,templates}
+install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db{,/schemas},images,includes,language,templates}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
 install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
