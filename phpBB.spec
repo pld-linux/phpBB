@@ -122,11 +122,11 @@ if [ "$1" = "0" ]; then
         fi
 fi
 
-
-%triggerpostun -- %{name} <= 2.0.10-1
+%triggerpostun -- %{name} < %{version}
 echo "You have to install %{name}-install package to prepare upgrade!!!"
 echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
+%triggerpostun -- %{name} <= 2.0.10-1
 if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
         mv -f /home/services/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
 else
