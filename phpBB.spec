@@ -1,13 +1,12 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-%define _version 2.0.8
-Version:	2.0.8
+Version:	2.0.8a
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{_version}.tar.bz2
-# Source0-md5:	20d9e163e3f3b575639c2a1fbd9e8690
+Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
+# Source0-md5:	44d33a5851800f8f278d3c100fb2fcb3
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -111,6 +110,7 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 %{_phpdir}/db/*
 %{_phpdir}/images/*
 %{_phpdir}/includes/*
+%{_phpdir}/templates/index.htm
 %attr(750,root,http) %dir %{_phpdir}/templates
 %attr(750,root,http) %dir %{_phpdir}/templates/subSilver
 %attr(750,root,http) %dir %{_phpdir}/templates/subSilver/admin
