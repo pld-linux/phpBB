@@ -5,13 +5,13 @@ Version:	2.0.4
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
-Source1:	http://prdownloads.sourceforge.net/phpbb/lang_polish.tar.gz
-Source2:	http://prdownloads.sourceforge.net/phpbb/subSilver_polish.tar.gz
-Source3:	http://prdownloads.sourceforge.net/phpbb/lang_german.tar.gz
-Source4:	http://prdownloads.sourceforge.net/phpbb/subSilver_german.tar.gz
-Source5:	http://prdownloads.sourceforge.net/phpbb/lang_french.tar.gz
-Source6:	http://prdownloads.sourceforge.net/phpbb/subSilver_french.tar.gz
+Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
+Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
+Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
+Source3:	http://dl.sourceforge.net/phpbb/lang_german.tar.gz
+Source4:	http://dl.sourceforge.net/phpbb/subSilver_german.tar.gz
+Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
+Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
 Requires:	php-pcre
