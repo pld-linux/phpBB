@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.3
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
@@ -28,6 +28,31 @@ edycja wiadomo¶ci, prywatne wiadomo¶ci, prywatne fora, wysy³anie jako
 u¿ytkownik i anonimowe, bogaty wybór motywów, ranking u¿ytkowników
 wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
+
+%package lang_polish
+Summary:	Add polish lang support
+Summary(pl):	Pakiet spolszczajacy forum phpBB
+Requires:	%{name} = %{version}
+Group:		Applications/Databases/Interfaces
+
+%description lang_polish
+Polish lang support
+
+%description lang_polish -l pl
+Polska wersja jezykowa phpBB
+
+%package lang_english
+Summary:	Add english lang support
+Summary(pl):	Anglojezyczna wersja forum phpBB
+Requires:	%{name} = %{version}
+Group:		Applications/Databases/Interfaces
+
+%description lang_english
+English lang support
+
+%description lang_english -l pl
+Angielska wersja jezykowa phpBB
+
 
 %prep
 %setup -q -n %{name}2
@@ -64,5 +89,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_phpdir}/images/*.gif
 %dir %{_phpdir}/images/smiles
 %{_phpdir}/images/smiles/*.gif
-%{_phpdir}/language
+%{_phpdir}/language/*.htm
 %{_phpdir}/templates
+
+%files lang_english
+%{_phpdir}/language/lang_english
+
+%files lang_polish
+%{_phpdir}/language/lang_english
