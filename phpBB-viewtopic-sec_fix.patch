@@ -1,0 +1,204 @@
+--- ./viewtopic.php.org	Sun Dec  8 03:13:40 2002
++++ ./viewtopic.php	Sun Dec  8 03:24:49 2002
+@@ -444,29 +444,25 @@
+ // Was a highlight request part of the URI? Yes, this idea was
+ // taken from vB but we did already have a highlighter in place
+ // in search itself ... it's just been extended a bit!
+-//
++// Fixed !!!
++$highlight_match = $highlight = '';
+ if ( isset($HTTP_GET_VARS['highlight']) )
+ {
+-	$highlight_match = array();
+-
+ 	//
+ 	// Split words and phrases
+ 	//
+-	$words = explode(' ', trim(urldecode($HTTP_GET_VARS['highlight'])));
++	$words = explode(' ', trim(htmlspecialchars(urldecode($HTTP_GET_VARS['highlight']))));
+ 
+ 	for($i = 0; $i < count($words); $i++)
+ 	{
+ 		if ( trim($words[$i]) != '' )
+ 		{
+-			$highlight_match[] = '#\b(' . str_replace("*", "([\w]+)?", $words[$i]) . ')\b#is';
++			$highlight_match .= (($highlight_match != '') ? '|' : '') . str_replace('*', '\w*', phpbb_preg_quote($words[$i], '#'));
+ 		}
+ 	}
++	unset($words);
+ 
+-	$highlight_active = ( count($highlight_match) ) ? true : false;
+-}
+-else
+-{
+-	$highlight_active = false;
++	$highlight = urlencode($HTTP_GET_VARS['highlight']);
+ }
+ 
+ //
+@@ -591,49 +587,51 @@
+ //
+ // If we've got a hightlight set pass it on to pagination, 
+ // I get annoyed when I lose my highlight after the first page.
++// FIXED!!!
+ //
+-$pagination = ( $highlight_active ) ? generate_pagination("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;highlight=" . $HTTP_GET_VARS['highlight'], $total_replies, $board_config['posts_per_page'], $start) : generate_pagination("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order", $total_replies, $board_config['posts_per_page'], $start);
++$pagination = ( $highlight_match ) ? generate_pagination("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;highlight=$highlight",$total_replies, $board_config['posts_per_page'], $start) :generate_pagination("viewtopic.$phpEx?" . POST_TOPIC_URL ."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order", $total_replies,$board_config['posts_per_page'], $start);
+ 
+ //
+ // Send vars to template
++// FIXED!!
+ //
+ $template->assign_vars(array(
+ 	'FORUM_ID' => $forum_id,
+-    'FORUM_NAME' => $forum_name,
+-    'TOPIC_ID' => $topic_id,
+-    'TOPIC_TITLE' => $topic_title,
++	'FORUM_NAME' => $forum_name,
++	'TOPIC_ID' => $topic_id,
++	'TOPIC_TITLE' => $topic_title,
+ 	'PAGINATION' => $pagination,
+-	'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $start / $board_config['posts_per_page'] ) + 1 ), ceil( $total_replies / $board_config['posts_per_page'] )), 
+-
++	'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $start / $board_config['posts_per_page'] ) + 1 ),ceil( $total_replies / $board_config['posts_per_page'] )),
+ 	'POST_IMG' => $post_img,
+ 	'REPLY_IMG' => $reply_img,
+ 
+ 	'L_AUTHOR' => $lang['Author'],
+ 	'L_MESSAGE' => $lang['Message'],
+-	'L_POSTED' => $lang['Posted'], 
++	'L_POSTED' => $lang['Posted'],
+ 	'L_POST_SUBJECT' => $lang['Post_subject'],
+ 	'L_VIEW_NEXT_TOPIC' => $lang['View_next_topic'],
+ 	'L_VIEW_PREVIOUS_TOPIC' => $lang['View_previous_topic'],
+-	'L_POST_NEW_TOPIC' => $post_alt, 
+-	'L_POST_REPLY_TOPIC' => $reply_alt, 
++	'L_POST_NEW_TOPIC' => $post_alt,
++	'L_POST_REPLY_TOPIC' => $reply_alt,
+ 	'L_BACK_TO_TOP' => $lang['Back_to_top'],
+ 	'L_DISPLAY_POSTS' => $lang['Display_posts'],
+-	'L_LOCK_TOPIC' => $lang['Lock_topic'], 
+-	'L_UNLOCK_TOPIC' => $lang['Unlock_topic'], 
+-	'L_MOVE_TOPIC' => $lang['Move_topic'], 
+-	'L_SPLIT_TOPIC' => $lang['Split_topic'], 
+-	'L_DELETE_TOPIC' => $lang['Delete_topic'], 
+-	'L_GOTO_PAGE' => $lang['Goto_page'], 
++	'L_LOCK_TOPIC' => $lang['Lock_topic'],
++	'L_UNLOCK_TOPIC' => $lang['Unlock_topic'],
++	'L_MOVE_TOPIC' => $lang['Move_topic'],
++	'L_SPLIT_TOPIC' => $lang['Split_topic'],
++	'L_DELETE_TOPIC' => $lang['Delete_topic'],
++	'L_GOTO_PAGE' => $lang['Goto_page'],
+ 
+-	'S_TOPIC_LINK' => POST_TOPIC_URL, 
++	'S_TOPIC_LINK' => POST_TOPIC_URL,
+ 	'S_SELECT_POST_DAYS' => $select_post_days,
+ 	'S_SELECT_POST_ORDER' => $select_post_order,
+-	'S_POST_DAYS_ACTION' => append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id . "&amp;start=$start"), 
++	'S_POST_DAYS_ACTION' => append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id ."&amp;start=$start"),
+ 	'S_AUTH_LIST' => $s_auth_can,
+ 	'S_TOPIC_ADMIN' => $topic_mod,
+ 	'S_WATCH_TOPIC' => $s_watching_topic,
+ 
+-	'U_VIEW_TOPIC' => append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;start=$start&amp;postdays=$post_days&amp;postorder=$post_order&amp;highlight=" . $HTTP_GET_VARS['highlight']), 
++	'U_VIEW_TOPIC' => append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL .
++	"=$topic_id&amp;start=$start&amp;postdays=$post_days&amp;postorder=$post_order&amp;highlight=$highlight"),
+ 	'U_VIEW_FORUM' => $view_forum_url,
+ 	'U_VIEW_OLDER_TOPIC' => $view_prev_topic_url,
+ 	'U_VIEW_NEWER_TOPIC' => $view_next_topic_url,
+@@ -1052,82 +1050,15 @@
+ 
+ 	//
+ 	// Highlight active words (primarily for search)
++	// FIXED!!
+ 	//
+-	if ( $highlight_active )
++	if ($highlight_match)
+ 	{
+-		if ( preg_match('/<.*>/', $message) )
+-		{
+-			$message = preg_replace($highlight_match, '<!-- #sh -->\1<!-- #eh -->', $message);
+-
+-			$end_html = 0;
+-			$start_html = 1;
+-			$temp_message = '';
+-			$message = ' ' . $message . ' ';
+-
+-			while( $start_html = strpos($message, '<', $start_html) )
+-			{
+-				$grab_length = $start_html - $end_html - 1;
+-				$temp_message .= substr($message, $end_html + 1, $grab_length);
+-
+-				if ( $end_html = strpos($message, '>', $start_html) )
+-				{
+-					$length = $end_html - $start_html + 1;
+-					$hold_string = substr($message, $start_html, $length);
+-
+-					if ( strrpos(' ' . $hold_string, '<') != 1 )
+-					{
+-						$end_html = $start_html + 1;
+-						$end_counter = 1;
+-
+-						while ( $end_counter && $end_html < strlen($message) )
+-						{
+-							if ( substr($message, $end_html, 1) == '>' )
+-							{
+-								$end_counter--;
+-							}
+-							else if ( substr($message, $end_html, 1) == '<' )
+-							{
+-								$end_counter++;
+-							}
+-
+-							$end_html++;
+-						}
+-
+-						$length = $end_html - $start_html + 1;
+-						$hold_string = substr($message, $start_html, $length);
+-						$hold_string = str_replace('<!-- #sh -->', '', $hold_string);
+-						$hold_string = str_replace('<!-- #eh -->', '', $hold_string);
+-					}
+-					else if ( $hold_string == '<!-- #sh -->' )
+-					{
+-						$hold_string = str_replace('<!-- #sh -->', '<span style="color:#' . $theme['fontcolor3'] . '"><b>', $hold_string);
+-					}
+-					else if ( $hold_string == '<!-- #eh -->' )
+-					{
+-						$hold_string = str_replace('<!-- #eh -->', '</b></span>', $hold_string);
+-					}
+-
+-					$temp_message .= $hold_string;
+-
+-					$start_html += $length;
+-				}
+-				else
+-				{
+-					$start_html = strlen($message);
+-				}
+-			}
+-
+-			$grab_length = strlen($message) - $end_html - 1;
+-			$temp_message .= substr($message, $end_html + 1, $grab_length);
+-
+-			$message = trim($temp_message);
+-		}
+-		else
+-		{
+-			$message = preg_replace($highlight_match, '<span style="color:#' . $theme['fontcolor3'] . '"><b>\1</b></span>', $message);
+-		}
++		// This was shamelessly 'borrowed' from volker at multiartstudio dot de
++		// via php.net's annotated manual
++		$message = str_replace('\"', '"', substr(preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se',"preg_replace('#\b(" . $highlight_match . ")\b#i', '<span style=\"color:#" . $theme['fontcolor3']. "\"><b>\\\\1</b></span>', '\\0')", '>' . $message . '<'), 1, -1));
+ 	}
+-
++	
+ 	//
+ 	// Replace naughty words
+ 	//
+@@ -1246,4 +1177,4 @@
+ 
+ include($phpbb_root_path . 'includes/page_tail.'.$phpEx);
+ 
+-?>
+\ No newline at end of file
++?>
