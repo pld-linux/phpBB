@@ -1,13 +1,13 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-Version:	2.0.10
-Release:	2.1
+Version:	2.0.11
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-Source0:	http://dl.sourceforge.net/phpbb-php5mod/phpbb-php5-%{version}.tar.gz
-# Source0-md5:	af1c2aaf49453223b5e6b59ddae61091
+#Source0:	http://dl.sourceforge.net/phpbb-php5mod/phpbb-php5-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
+# Source0-md5:	ae6a8f3b74fb00251f5cceb03d295e89
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -58,8 +58,8 @@ Package needed for %{name} forum instalation.
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
-#%setup -q -n %{name}2
-%setup -q -n phpbb-php5-%{version}.1
+%setup -q -n %{name}2
+#setup -q -n phpbb-php5-%{version}.1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -94,20 +94,23 @@ install %{SOURCE7} $RPM_BUILD_ROOT/etc/httpd/%{name}.conf
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+if [ "$1" = "1" ]; then
+	if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
+        	echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
+	elif [ -d /etc/httpd/httpd.conf ]; then
+        	ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
+	fi
+	if [ -f /var/lock/subsys/httpd ]; then
+        	/usr/sbin/apachectl graceful 1>&2
+	fi
+fi
+
 %post install
 echo "For instalation: http://<your.site.address>/<path>/install/install.php"
 echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 echo
 echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
-
-if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
-        echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
-elif [ -d /etc/httpd/httpd.conf ]; then
-        ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
-fi
-if [ -f /var/lock/subsys/httpd ]; then
-        /usr/sbin/apachectl restart 1>&2
-fi
 
 %preun
 if [ "$1" = "0" ]; then
@@ -119,7 +122,7 @@ if [ "$1" = "0" ]; then
                         /etc/httpd/httpd.conf.tmp
                 mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
                 if [ -f /var/lock/subsys/httpd ]; then
-                        /usr/sbin/apachectl restart 1>&2
+                        /usr/sbin/apachectl graceful 1>&2
                 fi
         fi
 fi
@@ -143,13 +146,14 @@ for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
         echo "File changed by trigger: $i (backup: $i.backup)"
 done
 if [ -f /var/lock/subsys/httpd ]; then
-        /usr/sbin/apachectl restart 1>&2
+        /usr/sbin/apachectl graceful 1>&2
 fi
-
-
 
 %files
 %defattr(644,root,root,755)
+%dir %{_sysconfdir}
+%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
+%config(noreplace) %verify(not size mtime md5) /etc/httpd/%{name}.conf
 %doc docs/*
 %attr(755,root,http) %dir %{_phpdir}
 %attr(640,root,http) %{_phpdir}/[!c]*.php
@@ -193,9 +197,6 @@ fi
 
 %files install
 %defattr(644,root,root,755)
-%dir %{_sysconfdir}
-%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
-%config(noreplace) %verify(not size mtime md5) /etc/httpd/%{name}.conf
 %doc install/schemas/*.zip
 %attr(750,root,http) %dir %{_phpdir}/install
 %attr(640,root,http) %{_phpdir}/install/*.php
