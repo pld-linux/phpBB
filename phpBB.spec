@@ -25,7 +25,7 @@ Requires:	webserver
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_phpdir		/home/services/httpd/html/phpBB
+%define		_phpdir		/home/httpd/html/phpBB
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
