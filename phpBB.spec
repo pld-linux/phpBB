@@ -1,24 +1,24 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-Version:	2.0.4
-Release:	1.1
+Version:	2.0.5
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
-# Source0-md5:	e10b9c5c397365d0c32d99b99725b0ad
+# Source0-md5:	602cf40b6ea57c042a83e394f0722fef
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
-# Source1-md5:	3f40c4f9056a9675e73bdafca37c20ff
+# Source1-md5:	feabc41c40577dbdb148b06d3e0a9f41
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
-# Source2-md5:	c89562d926c372710ccc9614ee72b07e
+# Source2-md5:	9367f7a761aef3795ffa296b413136b4
 Source3:	http://dl.sourceforge.net/phpbb/lang_german.tar.gz
-# Source3-md5:	c3d833cdc316b045d626fe6ef3905ad6
+# Source3-md5:	5a36c6b00740e17a12500ad303c92113
 Source4:	http://dl.sourceforge.net/phpbb/subSilver_german.tar.gz
-# Source4-md5:	8d19b6dfa995ae454eca02be38a96eee
+# Source4-md5:	8340f310ee4892f3e19da3e000fdb708
 Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
-# Source5-md5:	0d7d61b034f43a089ced8d831e24765f
+# Source5-md5:	c81f843d4adf0a086efef590074478e6
 Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
-# Source6-md5:	6d856d8a00f62554ee773720df1e4010
+# Source6-md5:	419157eb144fa81b7464a5f2edeea434
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
 Requires:	webserver
