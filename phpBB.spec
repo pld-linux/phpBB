@@ -61,19 +61,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_phpdir}/*.php
 %{_phpdir}/*.inc
 %dir %{_phpdir}/admin
-%{_phpdir}/admin/*.php
-%dir %{_phpdir}/db
-%{_phpdir}/db/*.php
 %dir %{_phpdir}/includes
-%{_phpdir}/includes/*.php
+%dir %{_phpdir}/db
 %dir %{_phpdir}/images
+%dir %{_phpdir}/images/smiles
+%dir %{_phpdir}/images/avatars
+%dir %{_phpdir}/images/avatars/*
+%dir %{_phpdir}/language/*.htm
+%{_phpdir}/admin/*.php
+%{_phpdir}/db/*.php
+%{_phpdir}/includes/*.php
 %{_phpdir}/images/*.gif
 %{_phpdir}/images/*.htm
-%dir %{_phpdir}/images/smiles
 %{_phpdir}/images/smiles/*.gif
-%dir %{_phpdir}/images/avatars/*
-#%{_phpdir}/language/*.htm
-%dir %{_phpdir}/language/*.htm
 %{_phpdir}/templates/*.htm
 
 %lang(en) %{_phpdir}/language/lang_english
