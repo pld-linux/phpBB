@@ -6,8 +6,8 @@ Version:	2.0.6c
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{_version}.tar.gz
-# Source0-md5:	996c8e3b84c6a5c780616df940afd50d
+Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{_version}.tar.bz2
+# Source0-md5:	0c2a43e1f482dffbcdb91dd366c9894f
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
