@@ -20,7 +20,7 @@ Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
 # Source5-md5:	c81f843d4adf0a086efef590074478e6
 Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 # Source6-md5:	419157eb144fa81b7464a5f2edeea434
-Source7:        %{name}.conf
+Source7:	%{name}.conf
 Source8:	%{name}.ico
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
@@ -29,7 +29,7 @@ BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_phpdir		%{_datadir}/%{name}
-%define         _sysconfdir     /etc/%{name}
+%define		_sysconfdir	/etc/%{name}
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
@@ -64,7 +64,7 @@ Pakiet potrzebny do instalacji forum %{name}.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,install/schemas,language,templates} \
-        $RPM_BUILD_ROOT{%{_sysconfdir},/etc/httpd}
+	$RPM_BUILD_ROOT{%{_sysconfdir},/etc/httpd}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
 install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
@@ -101,12 +101,12 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ "$1" = "1" ]; then
 	if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
-        	echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
+		echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
 	elif [ -d /etc/httpd/httpd.conf ]; then
-        	ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
+		ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
 	fi
 	if [ -f /var/lock/subsys/httpd ]; then
-        	/usr/sbin/apachectl graceful 1>&2
+		/usr/sbin/apachectl graceful 1>&2
 	fi
 fi
 
@@ -118,17 +118,17 @@ echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!
 
 %preun
 if [ "$1" = "0" ]; then
-        umask 027
-        if [ -d /etc/httpd/httpd.conf ]; then
-                rm -f /etc/httpd/httpd.conf/99_%{name}.conf
-        else
-                grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
-                        /etc/httpd/httpd.conf.tmp
-                mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
-                if [ -f /var/lock/subsys/httpd ]; then
-                        /usr/sbin/apachectl graceful 1>&2
-                fi
-        fi
+	umask 027
+	if [ -d /etc/httpd/httpd.conf ]; then
+		rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+	else
+		grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
+			/etc/httpd/httpd.conf.tmp
+		mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
+		if [ -f /var/lock/subsys/httpd ]; then
+			/usr/sbin/apachectl graceful 1>&2
+		fi
+	fi
 fi
 
 %triggerpostun -- %{name} < %{version}
@@ -137,20 +137,20 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %triggerpostun -- %{name} <= 2.0.10-1
 if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
-        mv -f /home/services/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
+	mv -f /home/services/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
 else
-        if [ -f /home/httpd/html/phpBB/config.php.rpmsave ]; then
-                mv -f /home/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
-        fi
+	if [ -f /home/httpd/html/phpBB/config.php.rpmsave ]; then
+		mv -f /home/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
+	fi
 fi
 for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
-        cp $i $i.backup
-        %{__perl} -pi -e "s#/home/httpd/html/phpBB#%{_phpdir}#g" $i
-        %{__perl} -pi -e "s#/home/services/httpd/html/phpBB#%{_phpdir}#g" $i
-        echo "File changed by trigger: $i (backup: $i.backup)"
+	cp $i $i.backup
+	%{__perl} -pi -e "s#/home/httpd/html/phpBB#%{_phpdir}#g" $i
+	%{__perl} -pi -e "s#/home/services/httpd/html/phpBB#%{_phpdir}#g" $i
+	echo "File changed by trigger: $i (backup: $i.backup)"
 done
 if [ -f /var/lock/subsys/httpd ]; then
-        /usr/sbin/apachectl graceful 1>&2
+	/usr/sbin/apachectl graceful 1>&2
 fi
 
 %files
