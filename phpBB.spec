@@ -15,11 +15,12 @@ Source6:	http://prdownloads.sourceforge.net/phpbb/subSilver_french.tar.gz
 Patch0:		%{name}-viewtopic-sec_fix.patch
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
+Requires:	php-pcre
 Requires:	webserver
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_phpdir		/home/services/httpd/html/phpBB
+%define		_phpdir		/home/httpd/html/phpBB
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
@@ -35,6 +36,18 @@ edycja wiadomo¶ci, prywatne wiadomo¶ci, prywatne fora, wysy³anie jako
 u¿ytkownik i anonimowe, bogaty wybór motywów, ranking u¿ytkowników
 wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
+
+%package install
+Summary:	A feature-rich PHP discussion board - installer
+Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach - instalator
+Group:		Applications/Databases/Interfaces
+Requires:	phpBB
+
+%description install
+Package needed for %{name} forum instalation.
+
+%description install -l pl
+Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
 %setup -q -n %{name}2
@@ -65,24 +78,34 @@ tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post install
+echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
+
 %files
 %defattr(644,root,root,755)
 %doc docs/* db/schemas/*
 %attr(755,root,http) %dir %{_phpdir}
 %attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
-%attr(640,root,http) %{_phpdir}/[efgilmpsuv]*.php
+%attr(640,root,http) %{_phpdir}/[efglmpsv]*.php
+%attr(640,root,http) %{_phpdir}/index.php
 %attr(640,root,http) %{_phpdir}/com*.php
 %attr(640,root,http) %{_phpdir}/*.inc
-%attr(640,root,http) %{_phpdir}/admin
-%attr(640,root,http) %{_phpdir}/includes
-%attr(640,root,http) %{_phpdir}/db
-%attr(640,root,http) %{_phpdir}/images
-%attr(640,root,http) %dir %{_phpdir}/language
-# ?
-%attr(640,root,http) %{_phpdir}/language/*.htm
-%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/
+%attr(750,root,http) %dir %{_phpdir}/admin
+%attr(750,root,http) %dir %{_phpdir}/db
+%attr(750,root,http) %dir %{_phpdir}/images
+%attr(750,root,http) %dir %{_phpdir}/includes
+%{_phpdir}/admin/*
+%{_phpdir}/db/*
+%{_phpdir}/images/*
+%{_phpdir}/includes/*
+%attr(750,root,http) %dir %{_phpdir}/templates
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/admin
+%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/*
 %attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/images
 %attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
+%attr(640,root,http) %{_phpdir}/language/*.htm
 
 %lang(en) %{_phpdir}/language/lang_english
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english
@@ -95,3 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %lang(fr) %{_phpdir}/language/lang_french
 %lang(fr) %{_phpdir}/templates/subSilver/images/lang_french
+
+%files install
+%defattr(644,root,root,755)
+%attr(640,root,http) %{_phpdir}/install.php
+%attr(640,root,http) %{_phpdir}/up*.php
