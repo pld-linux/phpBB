@@ -22,13 +22,15 @@ Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
 # Source5-md5:	c81f843d4adf0a086efef590074478e6
 Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 # Source6-md5:	419157eb144fa81b7464a5f2edeea434
+Source7:        %{name}.conf
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
 Requires:	webserver
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_phpdir		/home/services/httpd/html/phpBB
+%define		_phpdir		%{_datadir}/%{name}
+%define         _sysconfdir     /etc/%{name}
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
@@ -62,7 +64,8 @@ Pakiet potrzebny do instalacji forum %{name}.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,install/schemas,language,templates}
+install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,install/schemas,language,templates} \
+        $RPM_BUILD_ROOT{%{_sysconfdir},/etc/httpd}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
 install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
@@ -75,6 +78,9 @@ cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
 
+cp config.php $RPM_BUILD_ROOT%{_sysconfdir}
+ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_phpdir}/config.php
+
 tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
@@ -83,6 +89,8 @@ tar zxfv %{SOURCE4} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
 tar zxfv %{SOURCE5} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+
+install %{SOURCE7} $RPM_BUILD_ROOT/etc/httpd/%{name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -93,6 +101,31 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 echo
 echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
 
+if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
+        echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
+elif [ -d /etc/httpd/httpd.conf ]; then
+        ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
+fi
+if [ -f /var/lock/subsys/httpd ]; then
+        /usr/sbin/apachectl restart 1>&2
+fi
+
+%preun
+if [ "$1" = "0" ]; then
+        umask 027
+        if [ -d /etc/httpd/httpd.conf ]; then
+                rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+        else
+                grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
+                        /etc/httpd/httpd.conf.tmp
+                mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
+                if [ -f /var/lock/subsys/httpd ]; then
+                        /usr/sbin/apachectl restart 1>&2
+                fi
+        fi
+fi
+
+
 %triggerpostun -- %{name} <= %{version}
 echo "You have to install %{name}-install package to prepare upgrade!!!"
 echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
@@ -101,7 +134,6 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 %defattr(644,root,root,755)
 %doc docs/*
 %attr(755,root,http) %dir %{_phpdir}
-%attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
 %attr(640,root,http) %{_phpdir}/[^c]*.php
 %attr(640,root,http) %{_phpdir}/common.php
 %attr(640,root,http) %{_phpdir}/*.inc
@@ -142,6 +174,9 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %files install
 %defattr(644,root,root,755)
+%dir %{_sysconfdir}
+%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
+%config(noreplace) %verify(not size mtime md5) /etc/httpd/%{name}.conf
 %doc install/schemas/*.zip
 %attr(750,root,http) %dir %{_phpdir}/install
 %attr(640,root,http) %{_phpdir}/install/*.php
