@@ -1,12 +1,12 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-Version:	2.0.5
+Version:	2.0.6
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
-# Source0-md5:	602cf40b6ea57c042a83e394f0722fef
+# Source0-md5:	9fcaa3148203159db03947998a3cba9d
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	feabc41c40577dbdb148b06d3e0a9f41
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
