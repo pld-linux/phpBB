@@ -6,12 +6,19 @@ Release:	1.1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
+# Source0-md5:	e10b9c5c397365d0c32d99b99725b0ad
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
+# Source1-md5:	3f40c4f9056a9675e73bdafca37c20ff
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
+# Source2-md5:	c89562d926c372710ccc9614ee72b07e
 Source3:	http://dl.sourceforge.net/phpbb/lang_german.tar.gz
+# Source3-md5:	c3d833cdc316b045d626fe6ef3905ad6
 Source4:	http://dl.sourceforge.net/phpbb/subSilver_german.tar.gz
+# Source4-md5:	8d19b6dfa995ae454eca02be38a96eee
 Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
+# Source5-md5:	0d7d61b034f43a089ced8d831e24765f
 Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
+# Source6-md5:	6d856d8a00f62554ee773720df1e4010
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
 Requires:	webserver
