@@ -8,14 +8,10 @@ Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
 Source1:	http://prdownloads.sourceforge.net/phpbb/lang_polish.tar.gz
 Source2:	http://prdownloads.sourceforge.net/phpbb/subSilver_polish.tar.gz
-
 Source3:	http://prdownloads.sourceforge.net/phpbb/lang_german.tar.gz
 Source4:	http://prdownloads.sourceforge.net/phpbb/subSilver_german.tar.gz
-
 Source5:	http://prdownloads.sourceforge.net/phpbb/lang_french.tar.gz
 Source6:	http://prdownloads.sourceforge.net/phpbb/subSilver_french.tar.gz
-
-
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
 Requires:	webserver
@@ -40,29 +36,28 @@ wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
 
 %package lang_german
-Summary:        Add german lang support
-Summary(pl):    Niemieckojezyczna lokalizacja forum phpBB
-Requires:       %{name} = %{version}
-Group:          Applications/Databases/Interfaces
+Summary:	German language support for phpBB
+Summary(pl):	Niemieckojêzyczna lokalizacja forum phpBB
+Group:		Applications/Databases/Interfaces
+Requires:	%{name} = %{version}
 
 %description lang_german
-Germany lang support.
+German language support for phpBB.
 
 %description lang_german -l pl
-Niemieckojezyczna lokalizacja forum phpBB
+Niemieckojêzyczna lokalizacja forum phpBB.
 
 %package lang_french
-Summary:        Add french lang support
-Summary(pl):    Francuskojezyczna lokalizacja forum phpBB
+Summary:	French language support for phpBB
+Summary(pl):	Francuskojêzyczna lokalizacja forum phpBB
+Group:		Applications/Databases/Interfaces
 Requires:       %{name} = %{version}
-Group:          Applications/Databases/Interfaces
 
 %description lang_french
-French lang support.
+French language support for phpBB.
 
 %description lang_french -l pl
-Francuskojezyczna lokalizacja forum phpBB
-
+Francuskojêzyczna lokalizacja forum phpBB.
 
 %prep
 %setup -q -n %{name}2
@@ -104,26 +99,34 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_phpdir}/images
 %dir %{_phpdir}/images/smiles
 %dir %{_phpdir}/images/avatars
-%dir %{_phpdir}/language/*.htm
+%dir %{_phpdir}/language
 %{_phpdir}/admin/*.php
 %{_phpdir}/db/*.php
 %{_phpdir}/includes/*.php
 %{_phpdir}/images/*.gif
 %{_phpdir}/images/*.htm
 %{_phpdir}/images/smiles/*.gif
+# ?
+%{_phpdir}/language/*.htm
 %{_phpdir}/templates/subSilver/admin/
 %{_phpdir}/templates/subSilver/*.*
 %{_phpdir}/templates/subSilver/images/*.*
 
-%lang(en) %{_phpdir}/language/lang_english/*
+%lang(en) %{_phpdir}/language/lang_english
+%lang(en) %dir %{_phpdir}/templates/subSilver/images/lang_english
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english/*.gif
-%lang(pl) %{_phpdir}/language/lang_polish/*
+%lang(pl) %{_phpdir}/language/lang_polish
+%lang(pl) %dir %{_phpdir}/templates/subSilver/images/lang_polish
 %lang(pl) %{_phpdir}/templates/subSilver/images/lang_polish/*.gif
 
 %files lang_german
+%defattr(644,root,root,755)
 %{_phpdir}/language/lang_german
+%dir %{_phpdir}/templates/subSilver/images/lang_german
 %{_phpdir}/templates/subSilver/images/lang_german/*.gif
 
 %files lang_french
+%defattr(644,root,root,755)
 %{_phpdir}/language/lang_french
+%dir %{_phpdir}/templates/subSilver/images/lang_french
 %{_phpdir}/templates/subSilver/images/lang_french/*.gif
