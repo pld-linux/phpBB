@@ -1,13 +1,13 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-%define _version	2.0.6
-Version:	2.0.6c
+%define _version 2.0.8
+Version:	2.0.8
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{_version}.tar.bz2
-# Source0-md5:	0c2a43e1f482dffbcdb91dd366c9894f
+# Source0-md5:	20d9e163e3f3b575639c2a1fbd9e8690
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -66,7 +66,7 @@ install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
 install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
 install db/*.php	$RPM_BUILD_ROOT%{_phpdir}/db
 install includes/*.php	$RPM_BUILD_ROOT%{_phpdir}/includes
-install install/*.{htm,php} $RPM_BUILD_ROOT%{_phpdir}/install
+install install/*.php	$RPM_BUILD_ROOT%{_phpdir}/install
 install install/schemas/*.sql $RPM_BUILD_ROOT%{_phpdir}/install/schemas
 
 cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
@@ -86,7 +86,14 @@ tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 rm -rf $RPM_BUILD_ROOT
 
 %post install
-echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
+echo "For instalation: http://<your.site.address>/<path>/install/install.php"
+echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
+echo
+echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
+
+%triggerpostun  -- %{name} <= %{version}
+echo "You have to install %{name}-install package to prepare upgrade!!!"
+echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %files
 %defattr(644,root,root,755)
@@ -130,6 +137,5 @@ echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
 %doc install/schemas/*.zip
 %attr(750,root,http) %dir %{_phpdir}/install
 %attr(640,root,http) %{_phpdir}/install/*.php
-%attr(640,root,http) %{_phpdir}/install/*.htm
 %attr(750,root,http) %dir %{_phpdir}/install/schemas
 %attr(640,root,http) %{_phpdir}/install/schemas/*.sql
