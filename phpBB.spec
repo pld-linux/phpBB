@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.3
-Release:	3
+Release:	5
 License:	GPL v2
 Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
@@ -12,8 +12,10 @@ Source3:	http://prdownloads.sourceforge.net/phpbb/lang_german.tar.gz
 Source4:	http://prdownloads.sourceforge.net/phpbb/subSilver_german.tar.gz
 Source5:	http://prdownloads.sourceforge.net/phpbb/lang_french.tar.gz
 Source6:	http://prdownloads.sourceforge.net/phpbb/subSilver_french.tar.gz
+Patch0:		%{name}-viewtopic-sec_fix.patch
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
+Requires:	php-pcre
 Requires:	webserver
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -35,8 +37,21 @@ u¿ytkownik i anonimowe, bogaty wybór motywów, ranking u¿ytkowników
 wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
 
+%package install
+Summary:	A feature-rich PHP discussion board - installer
+Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach - instalator
+Group:		Applications/Databases/Interfaces
+Requires:	phpBB
+
+%description install
+Package needed for %{name} forum instalation.
+
+%description install -l pl
+Pakiet potrzebny do instalacji forum %{name}.
+
 %prep
 %setup -q -n %{name}2
+%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -63,22 +78,34 @@ tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post install
+echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
+
 %files
 %defattr(644,root,root,755)
 %doc docs/* db/schemas/*
-%dir %{_phpdir}
-%{_phpdir}/*.php
-%{_phpdir}/*.inc
-%{_phpdir}/admin
-%{_phpdir}/includes
-%{_phpdir}/db
-%{_phpdir}/images
-%dir %{_phpdir}/language
-# ?
-%{_phpdir}/language/*.htm
-%{_phpdir}/templates/subSilver/admin/
-%{_phpdir}/templates/subSilver/*.*
-%{_phpdir}/templates/subSilver/images/*.*
+%attr(755,root,http) %dir %{_phpdir}
+%attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
+%attr(640,root,http) %{_phpdir}/[efglmpsv]*.php
+%attr(640,root,http) %{_phpdir}/index.php
+%attr(640,root,http) %{_phpdir}/com*.php
+%attr(640,root,http) %{_phpdir}/*.inc
+%attr(750,root,http) %dir %{_phpdir}/admin
+%attr(750,root,http) %dir %{_phpdir}/db
+%attr(750,root,http) %dir %{_phpdir}/images
+%attr(750,root,http) %dir %{_phpdir}/includes
+%{_phpdir}/admin/*
+%{_phpdir}/db/*
+%{_phpdir}/images/*
+%{_phpdir}/includes/*
+%attr(750,root,http) %dir %{_phpdir}/templates
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/admin
+%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/*
+%attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/images
+%attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
+%attr(640,root,http) %{_phpdir}/language/*.htm
 
 %lang(en) %{_phpdir}/language/lang_english
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english
@@ -91,3 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %lang(fr) %{_phpdir}/language/lang_french
 %lang(fr) %{_phpdir}/templates/subSilver/images/lang_french
+
+%files install
+%defattr(644,root,root,755)
+%attr(640,root,http) %{_phpdir}/install.php
+%attr(640,root,http) %{_phpdir}/up*.php
