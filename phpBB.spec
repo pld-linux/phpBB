@@ -93,7 +93,7 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 echo
 echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
 
-%triggerpostun  -- %{name} <= %{version}
+%triggerpostun -- %{name} <= %{version}
 echo "You have to install %{name}-install package to prepare upgrade!!!"
 echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
