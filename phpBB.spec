@@ -66,19 +66,21 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc docs/* db/schemas/*
-%dir %{_phpdir}
-%{_phpdir}/*.php
-%{_phpdir}/*.inc
-%{_phpdir}/admin
-%{_phpdir}/includes
-%{_phpdir}/db
-%{_phpdir}/images
-%dir %{_phpdir}/language
+%attr(755,root,http) %dir %{_phpdir}
+%attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
+%attr(640,root,http) %{_phpdir}/[efgilmpsuv]*.php
+%attr(640,root,http) %{_phpdir}/com*.php
+%attr(640,root,http) %{_phpdir}/*.inc
+%attr(640,root,http) %{_phpdir}/admin
+%attr(640,root,http) %{_phpdir}/includes
+%attr(640,root,http) %{_phpdir}/db
+%attr(640,root,http) %{_phpdir}/images
+%attr(640,root,http) %dir %{_phpdir}/language
 # ?
-%{_phpdir}/language/*.htm
-%{_phpdir}/templates/subSilver/admin/
-%{_phpdir}/templates/subSilver/*.*
-%{_phpdir}/templates/subSilver/images/*.*
+%attr(640,root,http) %{_phpdir}/language/*.htm
+%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/
+%attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
+%attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
 
 %lang(en) %{_phpdir}/language/lang_english
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english
