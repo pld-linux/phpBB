@@ -8,6 +8,14 @@ Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
 Source1:	http://prdownloads.sourceforge.net/phpbb/lang_polish.tar.gz
 Source2:	http://prdownloads.sourceforge.net/phpbb/subSilver_polish.tar.gz
+
+Source3:	http://prdownloads.sourceforge.net/phpbb/lang_german.tar.gz
+Source4:	http://prdownloads.sourceforge.net/phpbb/subSilver_german.tar.gz
+
+Source5:	http://prdownloads.sourceforge.net/phpbb/lang_french.tar.gz
+Source6:	http://prdownloads.sourceforge.net/phpbb/subSilver_french.tar.gz
+
+
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
 Requires:	webserver
@@ -31,6 +39,31 @@ u¿ytkownik i anonimowe, bogaty wybór motywów, ranking u¿ytkowników
 wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
 
+%package lang_german
+Summary:        Add german lang support
+Summary(pl):    Niemieckojezyczna lokalizacja forum phpBB
+Requires:       %{name} = %{version}
+Group:          Applications/Databases/Interfaces
+
+%description lang_german
+Germany lang support.
+
+%description lang_german -l pl
+Niemieckojezyczna lokalizacja forum phpBB
+
+%package lang_french
+Summary:        Add french lang support
+Summary(pl):    Francuskojezyczna lokalizacja forum phpBB
+Requires:       %{name} = %{version}
+Group:          Applications/Databases/Interfaces
+
+%description lang_french
+French lang support.
+
+%description lang_french -l pl
+Francuskojezyczna lokalizacja forum phpBB
+
+
 %prep
 %setup -q -n %{name}2
 
@@ -49,6 +82,12 @@ cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
 
 tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+
+tar zxfv %{SOURCE3} -C $RPM_BUILD_ROOT%{_phpdir}/language/
+tar zxfv %{SOURCE4} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+
+tar zxfv %{SOURCE5} -C $RPM_BUILD_ROOT%{_phpdir}/language/
+tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -80,3 +119,11 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english/*.gif
 %lang(pl) %{_phpdir}/language/lang_polish/*
 %lang(pl) %{_phpdir}/templates/subSilver/images/lang_polish/*.gif
+
+%files lang_german
+%{_phpdir}/language/lang_german
+%{_phpdir}/templates/subSilver/images/lang_german/*.gif
+
+%files lang_french
+%{_phpdir}/language/lang_french
+%{_phpdir}/templates/subSilver/images/lang_french/*.gif
