@@ -90,13 +90,14 @@ echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
 %attr(640,root,http) %{_phpdir}/index.php
 %attr(640,root,http) %{_phpdir}/com*.php
 %attr(640,root,http) %{_phpdir}/*.inc
-%attr(640,root,http) %{_phpdir}/admin
-%attr(640,root,http) %{_phpdir}/includes
-%attr(640,root,http) %{_phpdir}/db
-%attr(640,root,http) %{_phpdir}/images
-%attr(750,root,http) %dir %{_phpdir}/language
-# ?
-%attr(640,root,http) %{_phpdir}/language/*.htm
+%attr(750,root,http) %dir %{_phpdir}/admin
+%attr(750,root,http) %dir %{_phpdir}/db
+%attr(750,root,http) %dir %{_phpdir}/images
+%attr(750,root,http) %dir %{_phpdir}/includes
+%{_phpdir}/admin/*
+%{_phpdir}/db/*
+%{_phpdir}/images/*
+%{_phpdir}/includes/*
 %attr(750,root,http) %dir %{_phpdir}/templates
 %attr(750,root,http) %dir %{_phpdir}/templates/subSilver
 %attr(750,root,http) %dir %{_phpdir}/templates/subSilver/admin
@@ -104,6 +105,7 @@ echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
 %attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
 %attr(750,root,http) %dir %{_phpdir}/templates/subSilver/images
 %attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
+%attr(640,root,http) %{_phpdir}/language/*.htm
 
 %lang(en) %{_phpdir}/language/lang_english
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english
