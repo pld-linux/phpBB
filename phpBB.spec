@@ -131,7 +131,7 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 %defattr(644,root,root,755)
 %doc docs/*
 %attr(755,root,http) %dir %{_phpdir}
-%attr(640,root,http) %{_phpdir}/[^c]*.php
+%attr(640,root,http) %{_phpdir}/[!c]*.php
 %attr(640,root,http) %{_phpdir}/common.php
 %attr(640,root,http) %{_phpdir}/*.inc
 %attr(750,root,http) %dir %{_phpdir}/admin
