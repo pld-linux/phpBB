@@ -2,11 +2,12 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.10
-Release:	2
+Release:	2.1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-# Source0-md5:	9aaf577d3160f6e3ba069eb2e670e2a4
+#Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/phpbb-php5mod/phpbb-php5-%{version}.tar.gz
+# Source0-md5:	af1c2aaf49453223b5e6b59ddae61091
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -57,7 +58,8 @@ Package needed for %{name} forum instalation.
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
-%setup -q -n %{name}2
+#%setup -q -n %{name}2
+%setup -q -n phpbb-php5-%{version}.1
 
 %install
 rm -rf $RPM_BUILD_ROOT
