@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.3
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
@@ -46,7 +46,6 @@ install includes/*.php	$RPM_BUILD_ROOT%{_phpdir}/includes
 cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
-#mkdir 			$RPM_BUILD_ROOT%{_phpdir}/images/avatars
 
 tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
@@ -66,7 +65,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_phpdir}/images
 %dir %{_phpdir}/images/smiles
 %dir %{_phpdir}/images/avatars
-%dir %{_phpdir}/images/avatars/*
 %dir %{_phpdir}/language/*.htm
 %{_phpdir}/admin/*.php
 %{_phpdir}/db/*.php
@@ -74,9 +72,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_phpdir}/images/*.gif
 %{_phpdir}/images/*.htm
 %{_phpdir}/images/smiles/*.gif
-%{_phpdir}/templates/*.htm
+%{_phpdir}/templates/subSilver/admin/
+%{_phpdir}/templates/subSilver/*.*
+%{_phpdir}/templates/subSilver/images/*.*
 
-%lang(en) %{_phpdir}/language/lang_english
+%lang(en) %{_phpdir}/language/lang_english/*
 %lang(en) %{_phpdir}/templates/subSilver/images/lang_english/*.gif
-%lang(pl) %{_phpdir}/language/lang_polish
+%lang(pl) %{_phpdir}/language/lang_polish/*
 %lang(pl) %{_phpdir}/templates/subSilver/images/lang_polish/*.gif
