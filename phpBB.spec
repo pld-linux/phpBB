@@ -172,6 +172,9 @@ fi
 %attr(750,root,http) %dir %{_phpdir}/images/smiles
 %attr(1770,root,http) %dir %{_phpdir}/images/avatars
 %attr(750,root,http) %dir %{_phpdir}/includes
+%attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
+%attr(640,root,http) %config(noreplace) %{_phpdir}/favicon.ico
+%attr(640,root,http) %config(noreplace) %{_phpdir}/robots.txt
 %{_phpdir}/admin/*
 %{_phpdir}/db/*
 %{_phpdir}/images/smiles/*
