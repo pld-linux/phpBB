@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.13
-Release:	1
+Release:	1.1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
@@ -29,7 +29,8 @@ BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_phpdir		%{_datadir}/%{name}
-%define		_sysconfdir	/etc/%{name}
+%define		_confdir	%{_sysconfdir}/%{name}
+%define		_avatardir	/var/lib/%{name}/avatars
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
@@ -65,7 +66,8 @@ Pakiet potrzebny do instalacji forum %{name}.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,install/schemas,language,templates} \
-	$RPM_BUILD_ROOT{%{_sysconfdir},/etc/httpd}
+	$RPM_BUILD_ROOT{%{_confdir},/etc/httpd} \
+	$RPM_BUILD_ROOT%{_avatardir}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
 install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
@@ -75,15 +77,18 @@ install install/*.php	$RPM_BUILD_ROOT%{_phpdir}/install
 install install/schemas/*.sql $RPM_BUILD_ROOT%{_phpdir}/install/schemas
 
 cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
+cp -R images/avatars/*	$RPM_BUILD_ROOT%{_avatardir}
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
+rm -rf $RPM_BUILD_ROOT%{_phpdir}/images/avatars
+ln -sf $RPM_BUILD_ROOT%{_avatardir} $RPM_BUILD_ROOT%{_phpdir}/images/avatars
 
-install config.php $RPM_BUILD_ROOT%{_sysconfdir}
-install %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/favicon.ico
-touch $RPM_BUILD_ROOT%{_sysconfdir}/robots.txt
-ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_phpdir}/config.php
-ln -sf %{_sysconfdir}/favicon.ico $RPM_BUILD_ROOT%{_phpdir}/favicon.ico
-ln -sf %{_sysconfdir}/robots.txt $RPM_BUILD_ROOT%{_phpdir}/robots.txt
+install config.php $RPM_BUILD_ROOT%{_confdir}
+install %{SOURCE8} $RPM_BUILD_ROOT%{_confdir}/favicon.ico
+touch $RPM_BUILD_ROOT%{_confdir}/robots.txt
+ln -sf %{_confdir}/config.php $RPM_BUILD_ROOT%{_phpdir}/config.php
+ln -sf %{_confdir}/favicon.ico $RPM_BUILD_ROOT%{_phpdir}/favicon.ico
+ln -sf %{_confdir}/robots.txt $RPM_BUILD_ROOT%{_phpdir}/robots.txt
 
 tar zxf %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
@@ -156,8 +161,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%dir %{_sysconfdir}
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*
+%dir %{_confdir}
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_confdir}/*
 %config(noreplace) %verify(not md5 mtime size) /etc/httpd/%{name}.conf
 %doc docs/*
 %attr(755,root,http) %dir %{_phpdir}
@@ -170,7 +175,7 @@ fi
 %attr(640,root,http) %{_phpdir}/images/*.gif
 %attr(640,root,http) %{_phpdir}/images/index.htm
 %attr(750,root,http) %dir %{_phpdir}/images/smiles
-%attr(1770,root,http) %dir %{_phpdir}/images/avatars
+%attr(1770,root,http) %dir %{_avatardir}
 %attr(750,root,http) %dir %{_phpdir}/includes
 %attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
 %attr(640,root,http) %config(noreplace) %{_phpdir}/favicon.ico
@@ -178,7 +183,7 @@ fi
 %{_phpdir}/admin/*
 %{_phpdir}/db/*
 %{_phpdir}/images/smiles/*
-%{_phpdir}/images/avatars/*
+%{_avatardir}/*
 %{_phpdir}/includes/*
 %{_phpdir}/templates/index.htm
 %attr(750,root,http) %dir %{_phpdir}/templates
