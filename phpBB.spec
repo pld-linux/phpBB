@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.3
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Applications/Databases/Interfaces
 Source0:	http://prdownloads.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
@@ -12,6 +12,7 @@ Source3:	http://prdownloads.sourceforge.net/phpbb/lang_german.tar.gz
 Source4:	http://prdownloads.sourceforge.net/phpbb/subSilver_german.tar.gz
 Source5:	http://prdownloads.sourceforge.net/phpbb/lang_french.tar.gz
 Source6:	http://prdownloads.sourceforge.net/phpbb/subSilver_french.tar.gz
+Patch0:		%{name}-viewtopic-sec_fix.patch
 URL:		http://www.phpbb.com/
 Requires:	php-mysql >= 4.1.0
 Requires:	webserver
@@ -37,6 +38,7 @@ rankingi i wiele innych.
 
 %prep
 %setup -q -n %{name}2
+%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
