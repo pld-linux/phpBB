@@ -72,6 +72,7 @@ install includes/*.php	$RPM_BUILD_ROOT%{_phpdir}/includes
 cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
+#mkdir 			$RPM_BUILD_ROOT%{_phpdir}/images/avatars
 
 tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
@@ -98,6 +99,7 @@ echo "Don't forget to install language"
 %{_phpdir}/images/*.htm
 %dir %{_phpdir}/images/smiles
 %{_phpdir}/images/smiles/*.gif
+%dir %{_phpdir}/images/avatars/*
 #%{_phpdir}/language/*.htm
 %dir %{_phpdir}/language/*.htm
 %{_phpdir}/templates
