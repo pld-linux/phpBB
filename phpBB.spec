@@ -21,6 +21,7 @@ Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
 Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 # Source6-md5:	419157eb144fa81b7464a5f2edeea434
 Source7:        %{name}.conf
+Source8:	%{name}.ico
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
 Requires:	webserver
@@ -76,8 +77,12 @@ cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
 
-cp config.php $RPM_BUILD_ROOT%{_sysconfdir}
+install config.php $RPM_BUILD_ROOT%{_sysconfdir}
+install %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/favicon.ico
+touch $RPM_BUILD_ROOT%{_sysconfdir}/robots.txt
 ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_phpdir}/config.php
+ln -sf %{_sysconfdir}/favicon.ico $RPM_BUILD_ROOT%{_phpdir}/favicon.ico
+ln -sf %{_sysconfdir}/robots.txt $RPM_BUILD_ROOT%{_phpdir}/robots.txt
 
 tar zxfv %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
 tar zxfv %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
