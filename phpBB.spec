@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.6
-Release:	1
+Release:	1.1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.gz
@@ -85,7 +85,14 @@ tar zxfv %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
 rm -rf $RPM_BUILD_ROOT
 
 %post install
-echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
+echo "For instalation: http://<your.site.address>/<path>/install/install.php"
+echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
+echo
+echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
+
+%triggerpostun  -- %{name} <= %{version}
+echo "You have to install %{name}-install package to prepare upgrade!!!"
+echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %files
 %defattr(644,root,root,755)
