@@ -123,9 +123,28 @@ if [ "$1" = "0" ]; then
 fi
 
 
-%triggerpostun -- %{name} <= %{version}
+%triggerpostun -- %{name} <= 2.0.10-1
 echo "You have to install %{name}-install package to prepare upgrade!!!"
 echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
+
+if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
+        mv -f /home/services/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
+else
+        if [ -f /home/httpd/html/phpBB/config.php.rpmsave ]; then
+                mv -f /home/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
+        fi
+fi
+for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
+        cp $i $i.backup
+        %{__perl} -pi -e "s#/home/httpd/html/phpBB#%{_phpdir}#g" $i
+        %{__perl} -pi -e "s#/home/services/httpd/html/phpBB#%{_phpdir}#g" $i
+        echo "File changed by trigger: $i (backup: $i.backup)"
+done
+if [ -f /var/lock/subsys/httpd ]; then
+        /usr/sbin/apachectl restart 1>&2
+fi
+
+
 
 %files
 %defattr(644,root,root,755)
