@@ -55,7 +55,7 @@ Pakiet potrzebny do instalacji forum %{name}.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db{,/schemas},images,includes,language,templates}
+install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db/schemas,images,includes,language,templates}
 
 install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
 install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
@@ -122,6 +122,7 @@ echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
 
 %files install
 %defattr(644,root,root,755)
+%doc db/schemas/*.zip
 %attr(640,root,http) %{_phpdir}/install.php
 %attr(640,root,http) %{_phpdir}/up*.php
 %attr(640,root,http) %{_phpdir}/db/schemas/*.sql
