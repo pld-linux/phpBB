@@ -1,6 +1,3 @@
-# TODO:
-# - move everything to %{_datadir}/%{name}
-# - move config to /etc
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
