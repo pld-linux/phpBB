@@ -6,8 +6,8 @@ Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-Source0:	http://dl.sourceforge.net/phpbb-php5mod/20123.tar.gz
-# Source0-md5:	36aac48f98a5ef8f1f92cd875daaab49
+Source0:	http://dl.sourceforge.net/phpbb-php5mod/20133.tar.gz
+# Source0-md5:	f57e472cc000b0721a365af45c41f3fd
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
