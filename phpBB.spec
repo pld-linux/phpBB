@@ -38,13 +38,13 @@ wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
 
 %package install
-Summary:	A feature-rich PHP discussion board
-Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
+Summary:	A feature-rich PHP discussion board - installer
+Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach - instalator
 Group:		Applications/Databases/Interfaces
 Requires:	phpBB
 
 %description install
-Package needed for %{name} formu instalation.
+Package needed for %{name} forum instalation.
 
 %description install -l pl
 Pakiet potrzebny do instalacji forum %{name}.
@@ -94,11 +94,15 @@ echo "Remember to uninstall %{name}-install after initiation of %{name}!!"
 %attr(640,root,http) %{_phpdir}/includes
 %attr(640,root,http) %{_phpdir}/db
 %attr(640,root,http) %{_phpdir}/images
-%attr(640,root,http) %dir %{_phpdir}/language
+%attr(750,root,http) %dir %{_phpdir}/language
 # ?
 %attr(640,root,http) %{_phpdir}/language/*.htm
-%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/
+%attr(750,root,http) %dir %{_phpdir}/templates
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/admin
+%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/*
 %attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
+%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/images
 %attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
 
 %lang(en) %{_phpdir}/language/lang_english
