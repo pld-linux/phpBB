@@ -105,10 +105,15 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 %attr(750,root,http) %dir %{_phpdir}/admin
 %attr(750,root,http) %dir %{_phpdir}/db
 %attr(750,root,http) %dir %{_phpdir}/images
+%attr(640,root,http) %{_phpdir}/images/*.gif
+%attr(640,root,http) %{_phpdir}/images/index.htm
+%attr(750,root,http) %dir %{_phpdir}/images/smiles
+%attr(1770,root,http) %dir %{_phpdir}/images/avatars
 %attr(750,root,http) %dir %{_phpdir}/includes
 %{_phpdir}/admin/*
 %{_phpdir}/db/*
-%{_phpdir}/images/*
+%{_phpdir}/images/smiles/*
+%{_phpdir}/images/avatars/*
 %{_phpdir}/includes/*
 %{_phpdir}/templates/index.htm
 %attr(750,root,http) %dir %{_phpdir}/templates
