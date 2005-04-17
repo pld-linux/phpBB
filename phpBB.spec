@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.14
-Release:	1
+Release:	0.9
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
@@ -175,6 +175,7 @@ fi
 %attr(640,root,http) %{_phpdir}/images/*.gif
 %attr(640,root,http) %{_phpdir}/images/index.htm
 %attr(750,root,http) %dir %{_phpdir}/images/smiles
+%attr(710,root,http) %dir /var/lib/%{name}
 %attr(1770,root,http) %dir %{_avatardir}
 %attr(750,root,http) %dir %{_phpdir}/includes
 %attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
