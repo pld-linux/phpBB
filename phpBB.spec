@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.14
-Release:	0.9
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
@@ -60,7 +60,6 @@ Package needed for %{name} forum instalation.
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
-#%setup -q -n phpbb-php5
 %setup -q -c
 
 %install
