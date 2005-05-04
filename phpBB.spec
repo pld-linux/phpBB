@@ -81,7 +81,7 @@ cp -R images/avatars/*	$RPM_BUILD_ROOT%{_avatardir}
 cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
 cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
 rm -rf $RPM_BUILD_ROOT%{_phpdir}/images/avatars
-ln -sf $RPM_BUILD_ROOT%{_avatardir} $RPM_BUILD_ROOT%{_phpdir}/images/avatars
+ln -sf %{_avatardir} $RPM_BUILD_ROOT%{_phpdir}/images/avatars
 
 install config.php $RPM_BUILD_ROOT%{_confdir}
 install %{SOURCE8} $RPM_BUILD_ROOT%{_confdir}/favicon.ico
@@ -184,6 +184,7 @@ fi
 %{_phpdir}/admin/*
 %{_phpdir}/db/*
 %{_phpdir}/images/smiles/*
+%{_phpdir}/images/avatars
 %{_avatardir}/*
 %{_phpdir}/includes/*
 %{_phpdir}/templates/index.htm
