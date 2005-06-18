@@ -2,13 +2,13 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.15
-%define	fver	20154
-Release:	1
+%define	fver	20154a
+Release:	2
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
 Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.gz
-# Source0-md5:	e8c6f11c6dec5236033dd517e5f07281
+# Source0-md5:	6bc9b392476fe8f1ee87e41e1329311b
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -61,7 +61,7 @@ Package needed for %{name} forum instalation.
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
-%setup -q -c
+%setup -q -n cvs-release
 
 %install
 rm -rf $RPM_BUILD_ROOT
