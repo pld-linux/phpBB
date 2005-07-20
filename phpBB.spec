@@ -1,14 +1,14 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-Version:	2.0.16
-%define	fver	20164
+Version:	2.0.17
+%define	fver	20175
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.gz
-# Source0-md5:	fb3d4901a40f6cfef3a109c6bad782fe
+Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
+# Source0-md5:	a727efa291fcf068ecc83ded7882a183
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
