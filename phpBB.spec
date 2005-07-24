@@ -1,3 +1,6 @@
+# Conditional build:
+%bcond_without php5		# build without php5 support
+#
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
@@ -23,6 +26,8 @@ Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 # Source6-md5:	419157eb144fa81b7464a5f2edeea434
 Source7:	%{name}.conf
 Source8:	%{name}.ico
+Source9:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
+# Source9-md5:	1cafd539b72201c91c5cdee98f910046
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
 Requires:	webserver
@@ -61,7 +66,11 @@ Package needed for %{name} forum instalation.
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
+%if %{without php5}
+%setup -q -T -b 9 -n phpBB2
+%else
 %setup -q -c
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
