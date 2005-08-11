@@ -1,5 +1,5 @@
 # Conditional build:
-%bcond_without php5		# build without php5 support
+%bcond_without	php5		# build without php5 support
 #
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
