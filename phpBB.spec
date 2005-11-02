@@ -9,7 +9,6 @@ Version:	2.0.18
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
 Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
 # Source0-md5:	dac447c941798993feff9f01ffbc8af5
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
