@@ -27,7 +27,7 @@ Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 Source7:	%{name}.conf
 Source8:	%{name}.ico
 Source9:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-# Source9-md5:	1cafd539b72201c91c5cdee98f910046
+# Source9-md5:	2d3c71574ea8d3ef0afbcf4aec63947a
 URL:		http://www.phpbb.com/
 Requires:	php-pcre
 Requires:	webserver
