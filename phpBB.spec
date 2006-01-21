@@ -4,13 +4,13 @@
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-Version:	2.0.18
-%define	fver	20185
-Release:	1
+Version:	2.0.19
+%define	fver	20195
+Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
-# Source0-md5:	dac447c941798993feff9f01ffbc8af5
+# Source0-md5:	49b3858da2f8e48e2fc5f0b144a05b6d
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -26,16 +26,19 @@ Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 Source7:	%{name}.conf
 Source8:	%{name}.ico
 Source9:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-# Source9-md5:	2d3c71574ea8d3ef0afbcf4aec63947a
+# Source9-md5:	7b8c6d6f7f92571afb34f192f3c242dd
 URL:		http://www.phpbb.com/
+Requires(triggerpostun):	sed >= 4.0
 Requires:	php-pcre
-Requires:	webserver
+Requires:	webapps
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_phpdir		%{_datadir}/%{name}
-%define		_confdir	%{_sysconfdir}/%{name}
 %define		_avatardir	/var/lib/%{name}/avatars
+%define		_appdir		%{_datadir}/%{name}
+%define		_webapps	/etc/webapps
+%define		_webapp		%{name}
+%define		_sysconfdir	%{_webapps}/%{_webapp}
 
 %description
 phpBB is a UBB-style dissussion board written in PHP backended by a
@@ -73,56 +76,44 @@ Pakiet potrzebny do instalacji forum %{name}.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_phpdir}/{admin,db,images,includes,install/schemas,language,templates} \
-	$RPM_BUILD_ROOT{%{_confdir},/etc/httpd} \
-	$RPM_BUILD_ROOT%{_avatardir}
+install -d $RPM_BUILD_ROOT%{_appdir}/{admin,db,images,includes,install/schemas,language,templates} \
+	$RPM_BUILD_ROOT{%{_sysconfdir},/etc/httpd,%{_avatardir}}
 
-install *.{php,inc}	$RPM_BUILD_ROOT%{_phpdir}
-install admin/*.php	$RPM_BUILD_ROOT%{_phpdir}/admin
-install db/*.php	$RPM_BUILD_ROOT%{_phpdir}/db
-install includes/*.php	$RPM_BUILD_ROOT%{_phpdir}/includes
-install install/*.php	$RPM_BUILD_ROOT%{_phpdir}/install
-install install/schemas/*.sql $RPM_BUILD_ROOT%{_phpdir}/install/schemas
+install *.{php,inc}	$RPM_BUILD_ROOT%{_appdir}
+install admin/*.php	$RPM_BUILD_ROOT%{_appdir}/admin
+install db/*.php	$RPM_BUILD_ROOT%{_appdir}/db
+install includes/*.php	$RPM_BUILD_ROOT%{_appdir}/includes
+install install/*.php	$RPM_BUILD_ROOT%{_appdir}/install
+install install/schemas/*.sql $RPM_BUILD_ROOT%{_appdir}/install/schemas
 
-cp -R images/*		$RPM_BUILD_ROOT%{_phpdir}/images
+cp -R images/*		$RPM_BUILD_ROOT%{_appdir}/images
 cp -R images/avatars/*	$RPM_BUILD_ROOT%{_avatardir}
-cp -R language/*	$RPM_BUILD_ROOT%{_phpdir}/language
-cp -R templates/*	$RPM_BUILD_ROOT%{_phpdir}/templates
-rm -rf $RPM_BUILD_ROOT%{_phpdir}/images/avatars
-ln -sf %{_avatardir} $RPM_BUILD_ROOT%{_phpdir}/images/avatars
+cp -R language/*	$RPM_BUILD_ROOT%{_appdir}/language
+cp -R templates/*	$RPM_BUILD_ROOT%{_appdir}/templates
+rm -rf $RPM_BUILD_ROOT%{_appdir}/images/avatars
+ln -sf %{_avatardir} $RPM_BUILD_ROOT%{_appdir}/images/avatars
 
-install config.php $RPM_BUILD_ROOT%{_confdir}
-install %{SOURCE8} $RPM_BUILD_ROOT%{_confdir}/favicon.ico
-touch $RPM_BUILD_ROOT%{_confdir}/robots.txt
-ln -sf %{_confdir}/config.php $RPM_BUILD_ROOT%{_phpdir}/config.php
-ln -sf %{_confdir}/favicon.ico $RPM_BUILD_ROOT%{_phpdir}/favicon.ico
-ln -sf %{_confdir}/robots.txt $RPM_BUILD_ROOT%{_phpdir}/robots.txt
+install config.php $RPM_BUILD_ROOT%{_sysconfdir}/config.php
+install %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/favicon.ico
+touch $RPM_BUILD_ROOT%{_sysconfdir}/robots.txt
+ln -sf %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_appdir}/config.php
+ln -sf %{_sysconfdir}/favicon.ico $RPM_BUILD_ROOT%{_appdir}/favicon.ico
+ln -sf %{_sysconfdir}/robots.txt $RPM_BUILD_ROOT%{_appdir}/robots.txt
 
-tar zxf %{SOURCE1} -C $RPM_BUILD_ROOT%{_phpdir}/language/
-tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+tar zxf %{SOURCE1} -C $RPM_BUILD_ROOT%{_appdir}/language/
+tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_appdir}/templates/
 
-tar zxf %{SOURCE3} -C $RPM_BUILD_ROOT%{_phpdir}/language/
-tar zxf %{SOURCE4} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+tar zxf %{SOURCE3} -C $RPM_BUILD_ROOT%{_appdir}/language/
+tar zxf %{SOURCE4} -C $RPM_BUILD_ROOT%{_appdir}/templates/
 
-tar zxf %{SOURCE5} -C $RPM_BUILD_ROOT%{_phpdir}/language/
-tar zxf %{SOURCE6} -C $RPM_BUILD_ROOT%{_phpdir}/templates/
+tar zxf %{SOURCE5} -C $RPM_BUILD_ROOT%{_appdir}/language/
+tar zxf %{SOURCE6} -C $RPM_BUILD_ROOT%{_appdir}/templates/
 
-install %{SOURCE7} $RPM_BUILD_ROOT/etc/httpd/%{name}.conf
+install %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+install %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post
-if [ "$1" = "1" ]; then
-	if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
-		echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
-	elif [ -d /etc/httpd/httpd.conf ]; then
-		ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
-	fi
-	if [ -f /var/lock/subsys/httpd ]; then
-		/usr/sbin/apachectl graceful 1>&2
-	fi
-fi
 
 %post install
 echo "For instalation: http://<your.site.address>/<path>/install/install.php"
@@ -130,20 +121,17 @@ echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 echo
 echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
 
-%preun
-if [ "$1" = "0" ]; then
-	umask 027
-	if [ -d /etc/httpd/httpd.conf ]; then
-		rm -f /etc/httpd/httpd.conf/99_%{name}.conf
-	else
-		grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
-			/etc/httpd/httpd.conf.tmp
-		mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
-		if [ -f /var/lock/subsys/httpd ]; then
-			/usr/sbin/apachectl graceful 1>&2
-		fi
-	fi
-fi
+%triggerin -- apache1
+%webapp_register apache %{_webapp}
+
+%triggerun -- apache1
+%webapp_unregister apache %{_webapp}
+
+%triggerin -- apache >= 2.0.0
+%webapp_register httpd %{_webapp}
+
+%triggerun -- apache >= 2.0.0
+%webapp_unregister httpd %{_webapp}
 
 %triggerpostun -- %{name} < %{version}
 echo "You have to install %{name}-install package to prepare upgrade!!!"
@@ -159,69 +147,98 @@ else
 fi
 for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
 	cp $i $i.backup
-	%{__perl} -pi -e "s#/home/httpd/html/phpBB#%{_phpdir}#g" $i
-	%{__perl} -pi -e "s#/home/services/httpd/html/phpBB#%{_phpdir}#g" $i
+	%{__perl} -pi -e "s#/home/httpd/html/phpBB#%{_appdir}#g" $i
+	%{__perl} -pi -e "s#/home/services/httpd/html/phpBB#%{_appdir}#g" $i
 	echo "File changed by trigger: $i (backup: $i.backup)"
 done
 if [ -f /var/lock/subsys/httpd ]; then
 	/usr/sbin/apachectl graceful 1>&2
 fi
 
+%triggerpostun -- %{name} < 2.0.10-1
+# rescue app config from various old locations
+if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
+	mv -f %{_sysconfdir}/config.php{,.rpmnew}
+	mv -f /home/services/httpd/html/phpBB/config.php.rpmsave %{_sysconfdir}/config.php
+fi
+
+if [ -f /home/httpd/html/phpBB/config.php.rpmsave ]; then
+	mv -f %{_sysconfdir}/config.php{,.rpmnew}
+	mv -f /home/httpd/html/phpBB/config.php.rpmsave %{_sysconfdir}/config.php
+fi
+
+if [ -f /etc/%{name}/config.php.rpmsave ]; then
+	mv -f %{_sysconfdir}/config.php{,.rpmnew}
+	mv -f /etc/%{name}/config.php.rpmsave %{_sysconfdir}/config.php
+fi
+
+# nuke very-old config location (this mostly for Ra)
+if [ -f /etc/httpd/httpd.conf ]; then
+	sed -i -e "/^Include.*%{name}.conf/d" /etc/httpd/httpd.conf
+fi
+
+# migrate from httpd (apache2) config dir
+if [ -f /etc/httpd/%{name}.conf.rpmsave ]; then
+	cp -f %{_sysconfdir}/httpd.conf{,.rpmnew}
+	mv -f /etc/httpd/%{name}.conf.rpmsave %{_sysconfdir}/httpd.conf
+fi
+
+rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+/usr/sbin/webapp register httpd %{_webapp}
+if [ -f /var/lock/subsys/httpd ]; then
+	/etc/rc.d/init.d/httpd reload 1>&2
+
 %files
 %defattr(644,root,root,755)
-%dir %{_confdir}
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_confdir}/*
-%config(noreplace) %verify(not md5 mtime size) /etc/httpd/%{name}.conf
+%dir %attr(750,root,http) %{_sysconfdir}
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*.php
 %doc docs/*
-%attr(755,root,http) %dir %{_phpdir}
-%attr(640,root,http) %{_phpdir}/[!c]*.php
-%attr(640,root,http) %{_phpdir}/common.php
-%attr(640,root,http) %{_phpdir}/*.inc
-%attr(750,root,http) %dir %{_phpdir}/admin
-%attr(750,root,http) %dir %{_phpdir}/db
-%attr(750,root,http) %dir %{_phpdir}/images
-%attr(640,root,http) %{_phpdir}/images/*.gif
-%attr(640,root,http) %{_phpdir}/images/index.htm
-%attr(750,root,http) %dir %{_phpdir}/images/smiles
+%dir %{_appdir}
+%attr(640,root,http) %{_appdir}/[!c]*.php
+%attr(640,root,http) %{_appdir}/common.php
+%attr(640,root,http) %{_appdir}/*.inc
+%attr(750,root,http) %dir %{_appdir}/admin
+%attr(750,root,http) %dir %{_appdir}/db
+%attr(750,root,http) %dir %{_appdir}/images
+%attr(640,root,http) %{_appdir}/images/*.gif
+%attr(640,root,http) %{_appdir}/images/index.htm
+%attr(750,root,http) %dir %{_appdir}/images/smiles
 %attr(710,root,http) %dir /var/lib/%{name}
 %attr(1770,root,http) %dir %{_avatardir}
-%attr(750,root,http) %dir %{_phpdir}/includes
-%attr(640,root,http) %config(noreplace) %{_phpdir}/config.php
-%attr(640,root,http) %config(noreplace) %{_phpdir}/favicon.ico
-%attr(640,root,http) %config(noreplace) %{_phpdir}/robots.txt
-%{_phpdir}/admin/*
-%{_phpdir}/db/*
-%{_phpdir}/images/smiles/*
-%{_phpdir}/images/avatars
+%attr(750,root,http) %dir %{_appdir}/includes
+%attr(640,root,http) %config(noreplace) %{_appdir}/config.php
+%attr(640,root,http) %config(noreplace) %{_appdir}/favicon.ico
+%attr(640,root,http) %config(noreplace) %{_appdir/robots.txt
+%{_appdir}/admin/*
+%{_appdir}/db/*
+%{_appdir}/images/smiles/*
+%{_appdir}/images/avatars
 %{_avatardir}/*
-%{_phpdir}/includes/*
-%{_phpdir}/templates/index.htm
-%attr(750,root,http) %dir %{_phpdir}/templates
-%attr(750,root,http) %dir %{_phpdir}/templates/subSilver
-%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/admin
-%attr(640,root,http) %{_phpdir}/templates/subSilver/admin/*
-%attr(640,root,http) %{_phpdir}/templates/subSilver/*.*
-%attr(750,root,http) %dir %{_phpdir}/templates/subSilver/images
-%attr(640,root,http) %{_phpdir}/templates/subSilver/images/*.*
-%attr(750,root,http) %dir %{_phpdir}/language
-%attr(640,root,http) %{_phpdir}/language/*.htm
-
-%lang(en) %{_phpdir}/language/lang_english
-%lang(en) %{_phpdir}/templates/subSilver/images/lang_english
-
-%lang(pl) %{_phpdir}/language/lang_polish
-%lang(pl) %{_phpdir}/templates/subSilver/images/lang_polish
-
-%lang(de) %{_phpdir}/language/lang_german
-%lang(de) %{_phpdir}/templates/subSilver/images/lang_german
-
-%lang(fr) %{_phpdir}/language/lang_french
-%lang(fr) %{_phpdir}/templates/subSilver/images/lang_french
-
+%{_appdir}/includes/*
+%{_appdir}/templates/index.htm
+%attr(750,root,http) %dir %{_appdir}/templates
+%attr(750,root,http) %dir %{_appdir}/templates/subSilver
+%attr(750,root,http) %dir %{_appdir}/templates/subSilver/admin
+%attr(640,root,http) %{_appdir}/templates/subSilver/admin/*
+%attr(640,root,http) %{_appdir}/templates/subSilver/*.*
+%attr(750,root,http) %dir %{_appdir}/templates/subSilver/images
+%attr(640,root,http) %{_appdir}/templates/subSilver/images/*.*
+%attr(750,root,http) %dir %{_appdir}/language
+%attr(640,root,http) %{_appdir}/language/*.htm
+%lang(en) %{_appdir}/language/lang_english
+%lang(en) %{_appdir}/templates/subSilver/images/lang_english
+%lang(pl) %{_appdir}/language/lang_polish
+%lang(pl) %{_appdir}/templates/subSilver/images/lang_polish
+%lang(de) %{_appdir}/language/lang_german
+%lang(de) %{_appdir}/templates/subSilver/images/lang_german
+%lang(fr) %{_appdir}/language/lang_french
+%lang(fr) %{_appdir}/templates/subSilver/images/lang_french
 %files install
 %defattr(644,root,root,755)
 %doc install/schemas/*.zip
-%attr(750,root,http) %dir %{_phpdir}/install
-%attr(640,root,http) %{_phpdir}/install/*.php
-%attr(750,root,http) %dir %{_phpdir}/install/schemas
-%attr(640,root,http) %{_phpdir}/install/schemas/*.sql
+%attr(750,root,http) %dir %{_appdir}/install
+%attr(640,root,http) %{_appdir}/install/*.php
+%attr(750,root,http) %dir %{_appdir}/install/schemas
+%attr(640,root,http) %{_appdir}/install/schemas/*.sql
