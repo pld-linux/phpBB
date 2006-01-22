@@ -28,7 +28,7 @@ Source8:	%{name}.ico
 Source9:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
 # Source9-md5:	7b8c6d6f7f92571afb34f192f3c242dd
 URL:		http://www.phpbb.com/
-BuildRequires:rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(triggerpostun):	sed >= 4.0
 Requires:	php-pcre
 Requires:	webapps
@@ -115,8 +115,12 @@ find $RPM_BUILD_ROOT%{_appdir} -name Thumbs.db | xargs rm -f
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+echo "You have to install %{name}-install package to prepare upgrade!!!"
+echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
+
 %post install
-echo "For instalation: http://<your.site.address>/<path>/install/install.php"
+echo "For installation: http://<your.site.address>/<path>/install/install.php"
 echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 echo
 echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!!"
@@ -132,7 +136,6 @@ echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!
 
 %triggerun -- apache >= 2.0.0
 %webapp_unregister httpd %{_webapp}
-
 
 %triggerpostun -- %{name} <= 2.0.10-1
 for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
@@ -173,10 +176,6 @@ fi
 rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 /usr/sbin/webapp register httpd %{_webapp}
 %service httpd reload
-
-%triggerpostun -- %{name} < %{version}
-echo "You have to install %{name}-install package to prepare upgrade!!!"
-echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %files
 %defattr(644,root,root,755)
