@@ -6,7 +6,7 @@ Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.19
 %define	fver	20195
-Release:	0.1
+Release:	0.7
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
@@ -28,6 +28,7 @@ Source8:	%{name}.ico
 Source9:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
 # Source9-md5:	7b8c6d6f7f92571afb34f192f3c242dd
 URL:		http://www.phpbb.com/
+BuildRequires:rpmbuild(macros) >= 1.268
 Requires(triggerpostun):	sed >= 4.0
 Requires:	php-pcre
 Requires:	webapps
@@ -102,15 +103,14 @@ ln -sf %{_sysconfdir}/robots.txt $RPM_BUILD_ROOT%{_appdir}/robots.txt
 
 tar zxf %{SOURCE1} -C $RPM_BUILD_ROOT%{_appdir}/language/
 tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_appdir}/templates/
-
 tar zxf %{SOURCE3} -C $RPM_BUILD_ROOT%{_appdir}/language/
 tar zxf %{SOURCE4} -C $RPM_BUILD_ROOT%{_appdir}/templates/
-
 tar zxf %{SOURCE5} -C $RPM_BUILD_ROOT%{_appdir}/language/
 tar zxf %{SOURCE6} -C $RPM_BUILD_ROOT%{_appdir}/templates/
-
 install %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+
+find $RPM_BUILD_ROOT%{_appdir} -name Thumbs.db | xargs rm -f
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -133,29 +133,16 @@ echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!
 %triggerun -- apache >= 2.0.0
 %webapp_unregister httpd %{_webapp}
 
-%triggerpostun -- %{name} < %{version}
-echo "You have to install %{name}-install package to prepare upgrade!!!"
-echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %triggerpostun -- %{name} <= 2.0.10-1
-if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
-	mv -f /home/services/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
-else
-	if [ -f /home/httpd/html/phpBB/config.php.rpmsave ]; then
-		mv -f /home/httpd/html/phpBB/config.php.rpmsave /etc/phpBB/config.php
-	fi
-fi
 for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
 	cp $i $i.backup
-	%{__perl} -pi -e "s#/home/httpd/html/phpBB#%{_appdir}#g" $i
-	%{__perl} -pi -e "s#/home/services/httpd/html/phpBB#%{_appdir}#g" $i
+	sed -i -e "s#/home/httpd/html/phpBB#%{_appdir}#g" $i
+	sed -i -e "s#/home/services/httpd/html/phpBB#%{_appdir}#g" $i
 	echo "File changed by trigger: $i (backup: $i.backup)"
 done
-if [ -f /var/lock/subsys/httpd ]; then
-	/usr/sbin/apachectl graceful 1>&2
-fi
 
-%triggerpostun -- %{name} < 2.0.10-1
+%triggerpostun -- %{name} < 2.0.19-0.5
 # rescue app config from various old locations
 if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
 	mv -f %{_sysconfdir}/config.php{,.rpmnew}
@@ -185,48 +172,34 @@ fi
 
 rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 /usr/sbin/webapp register httpd %{_webapp}
-if [ -f /var/lock/subsys/httpd ]; then
-	/etc/rc.d/init.d/httpd reload 1>&2
+%service httpd reload
+
+%triggerpostun -- %{name} < %{version}
+echo "You have to install %{name}-install package to prepare upgrade!!!"
+echo "For upgrade: http://<your.site.address>/<path>/install/upgrade.php"
 
 %files
 %defattr(644,root,root,755)
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/config.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/favicon.ico
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/robots.txt
 %doc docs/*
 %dir %{_appdir}
-%attr(640,root,http) %{_appdir}/[!c]*.php
-%attr(640,root,http) %{_appdir}/common.php
-%attr(640,root,http) %{_appdir}/*.inc
-%attr(750,root,http) %dir %{_appdir}/admin
-%attr(750,root,http) %dir %{_appdir}/db
-%attr(750,root,http) %dir %{_appdir}/images
-%attr(640,root,http) %{_appdir}/images/*.gif
-%attr(640,root,http) %{_appdir}/images/index.htm
-%attr(750,root,http) %dir %{_appdir}/images/smiles
-%attr(710,root,http) %dir /var/lib/%{name}
-%attr(1770,root,http) %dir %{_avatardir}
-%attr(750,root,http) %dir %{_appdir}/includes
-%attr(640,root,http) %config(noreplace) %{_appdir}/config.php
-%attr(640,root,http) %config(noreplace) %{_appdir}/favicon.ico
-%attr(640,root,http) %config(noreplace) %{_appdir/robots.txt
-%{_appdir}/admin/*
-%{_appdir}/db/*
-%{_appdir}/images/smiles/*
-%{_appdir}/images/avatars
-%{_avatardir}/*
-%{_appdir}/includes/*
+%{_appdir}/[!c]*.php
+%{_appdir}/common.php
+%{_appdir}/*.inc
+%{_appdir}/admin
+%{_appdir}/db
+%{_appdir}/images
+%{_appdir}/includes
 %{_appdir}/templates/index.htm
-%attr(750,root,http) %dir %{_appdir}/templates
-%attr(750,root,http) %dir %{_appdir}/templates/subSilver
-%attr(750,root,http) %dir %{_appdir}/templates/subSilver/admin
-%attr(640,root,http) %{_appdir}/templates/subSilver/admin/*
-%attr(640,root,http) %{_appdir}/templates/subSilver/*.*
-%attr(750,root,http) %dir %{_appdir}/templates/subSilver/images
-%attr(640,root,http) %{_appdir}/templates/subSilver/images/*.*
-%attr(750,root,http) %dir %{_appdir}/language
-%attr(640,root,http) %{_appdir}/language/*.htm
+%{_appdir}/templates/subSilver/*.*
+%{_appdir}/templates/subSilver/admin/*.*
+%{_appdir}/templates/subSilver/images/*.*
+%{_appdir}/language/index.htm
 %lang(en) %{_appdir}/language/lang_english
 %lang(en) %{_appdir}/templates/subSilver/images/lang_english
 %lang(pl) %{_appdir}/language/lang_polish
@@ -235,10 +208,16 @@ if [ -f /var/lock/subsys/httpd ]; then
 %lang(de) %{_appdir}/templates/subSilver/images/lang_german
 %lang(fr) %{_appdir}/language/lang_french
 %lang(fr) %{_appdir}/templates/subSilver/images/lang_french
+%attr(710,root,http) %dir /var/lib/%{name}
+%attr(1770,root,http) %dir %{_avatardir}
+%{_avatardir}/index.htm
+%{_avatardir}/gallery
+%attr(640,root,http) %config(noreplace) %{_appdir}/config.php
+%attr(640,root,http) %config(noreplace) %{_appdir}/favicon.ico
+%attr(640,root,http) %config(noreplace) %{_appdir}/robots.txt
+
 %files install
 %defattr(644,root,root,755)
 %doc install/schemas/*.zip
-%attr(750,root,http) %dir %{_appdir}/install
-%attr(640,root,http) %{_appdir}/install/*.php
-%attr(750,root,http) %dir %{_appdir}/install/schemas
-%attr(640,root,http) %{_appdir}/install/schemas/*.sql
+%{_appdir}/install/*.php
+%{_appdir}/install/schemas/*.sql
