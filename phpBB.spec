@@ -200,10 +200,12 @@ rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 %{_appdir}/db
 %{_appdir}/images
 %{_appdir}/includes
+%dir %{_appdir}/templates
 %{_appdir}/templates/index.htm
 %{_appdir}/templates/subSilver/*.*
 %{_appdir}/templates/subSilver/admin/*.*
 %{_appdir}/templates/subSilver/images/*.*
+%dir %{_appdir}/language
 %{_appdir}/language/index.htm
 %lang(en) %{_appdir}/language/lang_english
 %lang(en) %{_appdir}/templates/subSilver/images/lang_english
@@ -226,4 +228,5 @@ rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 %doc install/schemas/*.zip
 %dir %{_appdir}/install
 %{_appdir}/install/*.php
+%dir %{_appdir}/install/schemas
 %{_appdir}/install/schemas/*.sql
