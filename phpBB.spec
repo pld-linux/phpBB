@@ -6,7 +6,7 @@ Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.19
 %define	fver	20195
-Release:	0.7
+Release:	0.9
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
@@ -147,20 +147,26 @@ done
 
 %triggerpostun -- %{name} < 2.0.19-0.5
 # rescue app config from various old locations
-if [ -f /home/services/httpd/html/phpBB/config.php.rpmsave ]; then
-	mv -f %{_sysconfdir}/config.php{,.rpmnew}
-	mv -f /home/services/httpd/html/phpBB/config.php.rpmsave %{_sysconfdir}/config.php
-fi
+for i in config.php favicon.ico robots.txt; do
+    if [ -f /home/services/httpd/html/phpBB/$i.rpmsave ]; then
+	    mv -f %{_sysconfdir}/$i{,.rpmnew}
+	    mv -f /home/services/httpd/html/phpBB/$i.rpmsave %{_sysconfdir}/$i
+    fi
+done
 
-if [ -f /home/httpd/html/phpBB/config.php.rpmsave ]; then
-	mv -f %{_sysconfdir}/config.php{,.rpmnew}
-	mv -f /home/httpd/html/phpBB/config.php.rpmsave %{_sysconfdir}/config.php
-fi
+for i in config.php favicon.ico robots.txt; do
+    if [ -f /home/httpd/html/phpBB/$i.rpmsave ]; then
+	    mv -f %{_sysconfdir}/$i{,.rpmnew}
+	    mv -f /home/httpd/html/phpBB/$i.rpmsave %{_sysconfdir}/$i
+    fi
+done
 
-if [ -f /etc/%{name}/config.php.rpmsave ]; then
-	mv -f %{_sysconfdir}/config.php{,.rpmnew}
-	mv -f /etc/%{name}/config.php.rpmsave %{_sysconfdir}/config.php
-fi
+for i in config.php favicon.ico robots.txt; do
+    if [ -f /etc/%{name}/$i.rpmsave ]; then
+	    mv -f %{_sysconfdir}/$i{,.rpmnew}
+	    mv -f /etc/%{name}/$i.rpmsave %{_sysconfdir}/$i
+    fi
+done
 
 # nuke very-old config location (this mostly for Ra)
 if [ -f /etc/httpd/httpd.conf ]; then
