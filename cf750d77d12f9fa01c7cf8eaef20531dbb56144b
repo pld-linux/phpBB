@@ -1,0 +1,2 @@
+- let symlink point to %{_avatardir}, not RPM_BUILD_ROOT/%{_avatardir}
+- added above symlink to %files
