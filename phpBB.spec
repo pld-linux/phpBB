@@ -6,7 +6,7 @@ Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
 Version:	2.0.19
 %define	fver	20195
-Release:	0.9
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
@@ -224,5 +224,6 @@ rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 %files install
 %defattr(644,root,root,755)
 %doc install/schemas/*.zip
+%dir %{_appdir}/install
 %{_appdir}/install/*.php
 %{_appdir}/install/schemas/*.sql
