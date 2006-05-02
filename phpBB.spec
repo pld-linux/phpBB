@@ -5,7 +5,7 @@ Version:	2.0.20
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://heanet.dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
 # Source0-md5:	195d199f7ce766bc6d522e0e9a3cb74d
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
