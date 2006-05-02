@@ -1,16 +1,12 @@
-# Conditional build:
-%bcond_without	php5		# build without php5 support
-#
 Summary:	A feature-rich PHP discussion board
 Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
 Name:		phpBB
-Version:	2.0.19
-%define	fver	20195
+Version:	2.0.20
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://dl.sourceforge.net/phpbb-php5mod/%{fver}.tar.bz2
-# Source0-md5:	49b3858da2f8e48e2fc5f0b144a05b6d
+Source0:	http://heanet.dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
+# Source0-md5:	195d199f7ce766bc6d522e0e9a3cb74d
 Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
 Source2:	http://dl.sourceforge.net/phpbb/subSilver_polish.tar.gz
@@ -25,8 +21,6 @@ Source6:	http://dl.sourceforge.net/phpbb/subSilver_french.tar.gz
 # Source6-md5:	419157eb144fa81b7464a5f2edeea434
 Source7:	%{name}.conf
 Source8:	%{name}.ico
-Source9:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
-# Source9-md5:	7b8c6d6f7f92571afb34f192f3c242dd
 URL:		http://www.phpbb.com/
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(triggerpostun):	sed >= 4.0
@@ -69,11 +63,7 @@ Package needed for %{name} forum instalation.
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
-%if %{without php5}
-%setup -q -T -b 9 -n phpBB2
-%else
-%setup -q -c
-%endif
+%setup -q -n phpBB2
 
 %install
 rm -rf $RPM_BUILD_ROOT
