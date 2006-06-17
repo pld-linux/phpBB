@@ -7,17 +7,17 @@ License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
 # Source0-md5:	891dd4d30539dad4ba301db2ad038392
-Source1:	http://dl.sourceforge.net/phpbb/lang_polish.tar.gz
+Source1:	http://www.phpbb.com/files/releases/language_packs/lang_polish.tar.gz
 # Source1-md5:	db020ef788d4bd50ce04014964e3e043
-Source2:	http://dl.sourceforge.net/phpbb/subsilver_polish.tar.gz
+Source2:	http://www.phpbb.com/files/releases/language_packs/subsilver_polish.tar.gz
 # Source2-md5:	9367f7a761aef3795ffa296b413136b4
-Source3:	http://dl.sourceforge.net/phpbb/lang_german.tar.gz
+Source3:	http://www.phpbb.com/files/releases/language_packs/lang_german.tar.gz
 # Source3-md5:	5170a64aac5bf429b2c61fe36728c8cf
-Source4:	http://dl.sourceforge.net/phpbb/subsilver_german.tar.gz
+Source4:	http://www.phpbb.com/files/releases/language_packs/subsilver_german.tar.gz
 # Source4-md5:	8340f310ee4892f3e19da3e000fdb708
-Source5:	http://dl.sourceforge.net/phpbb/lang_french.tar.gz
+Source5:	http://www.phpbb.com/files/releases/language_packs/lang_french.tar.gz
 # Source5-md5:	a46b461d5e5406b1cf24bcf4b55ada08
-Source6:	http://dl.sourceforge.net/phpbb/subsilver_french.tar.gz
+Source6:	http://www.phpbb.com/files/releases/language_packs/subsilver_french.tar.gz
 # Source6-md5:	419157eb144fa81b7464a5f2edeea434
 Source7:	%{name}.conf
 Source8:	%{name}.ico
