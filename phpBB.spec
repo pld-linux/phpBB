@@ -138,21 +138,21 @@ done
 %triggerpostun -- %{name} < 2.0.19-0.5
 # rescue app config from various old locations
 for i in config.php favicon.ico robots.txt; do
-    if [ -f /home/services/httpd/html/phpBB/$i.rpmsave ]; then
+	if [ -f /home/services/httpd/html/phpBB/$i.rpmsave ]; then
 	    mv -f %{_sysconfdir}/$i{,.rpmnew}
 	    mv -f /home/services/httpd/html/phpBB/$i.rpmsave %{_sysconfdir}/$i
-    fi
+	fi
 done
 
 for i in config.php favicon.ico robots.txt; do
-    if [ -f /home/httpd/html/phpBB/$i.rpmsave ]; then
+	if [ -f /home/httpd/html/phpBB/$i.rpmsave ]; then
 	    mv -f %{_sysconfdir}/$i{,.rpmnew}
 	    mv -f /home/httpd/html/phpBB/$i.rpmsave %{_sysconfdir}/$i
-    fi
+	fi
 done
 
 for i in config.php favicon.ico robots.txt; do
-    if [ -f /etc/%{name}/$i.rpmsave ]; then
+	if [ -f /etc/%{name}/$i.rpmsave ]; then
 	    mv -f %{_sysconfdir}/$i{,.rpmnew}
 	    mv -f /etc/%{name}/$i.rpmsave %{_sysconfdir}/$i
     fi
@@ -171,7 +171,7 @@ fi
 
 rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 /usr/sbin/webapp register httpd %{_webapp}
-%service httpd reload
+%service -q httpd reload
 
 %files
 %defattr(644,root,root,755)
