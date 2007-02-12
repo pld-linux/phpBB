@@ -1,5 +1,5 @@
 Summary:	A feature-rich PHP discussion board
-Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach
+Summary(pl.UTF-8):   Forum dyskusyjne o duÅ¼ych moÅ¼liwoÅ›ciach
 Name:		phpBB
 Version:	2.0.21
 Release:	2
@@ -42,24 +42,24 @@ messages, private messages, private forums, user and anonymous
 posting, robust theming, user ranking by posts or by special, admin
 definable, ranks, and much more.
 
-%description -l pl
-phpBB jest forum dyskusyjnym w stylu UBB napisanym w PHP z u¿yciem
-bazy danych MySQL. Ma mo¿liwo¶ci takie jak: wysy³anie, odpisywanie,
-edycja wiadomo¶ci, prywatne wiadomo¶ci, prywatne fora, wysy³anie jako
-u¿ytkownik i anonimowe, bogaty wybór motywów, ranking u¿ytkowników
-wed³ug ich wiadomo¶ci lub specjalne, definiowane przez administratora,
+%description -l pl.UTF-8
+phpBB jest forum dyskusyjnym w stylu UBB napisanym w PHP z uÅ¼yciem
+bazy danych MySQL. Ma moÅ¼liwoÅ›ci takie jak: wysyÅ‚anie, odpisywanie,
+edycja wiadomoÅ›ci, prywatne wiadomoÅ›ci, prywatne fora, wysyÅ‚anie jako
+uÅ¼ytkownik i anonimowe, bogaty wybÃ³r motywÃ³w, ranking uÅ¼ytkownikÃ³w
+wedÅ‚ug ich wiadomoÅ›ci lub specjalne, definiowane przez administratora,
 rankingi i wiele innych.
 
 %package install
 Summary:	A feature-rich PHP discussion board - installer
-Summary(pl):	Forum dyskusyjne o du¿ych mo¿liwo¶ciach - instalator
+Summary(pl.UTF-8):   Forum dyskusyjne o duÅ¼ych moÅ¼liwoÅ›ciach - instalator
 Group:		Applications/Databases/Interfaces
 Requires:	phpBB
 
 %description install
 Package needed for %{name} forum instalation.
 
-%description install -l pl
+%description install -l pl.UTF-8
 Pakiet potrzebny do instalacji forum %{name}.
 
 %prep
