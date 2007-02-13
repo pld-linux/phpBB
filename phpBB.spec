@@ -1,5 +1,5 @@
 Summary:	A feature-rich PHP discussion board
-Summary(pl.UTF-8):   Forum dyskusyjne o dużych możliwościach
+Summary(pl.UTF-8):	Forum dyskusyjne o dużych możliwościach
 Name:		phpBB
 Version:	2.0.21
 Release:	2
@@ -52,7 +52,7 @@ rankingi i wiele innych.
 
 %package install
 Summary:	A feature-rich PHP discussion board - installer
-Summary(pl.UTF-8):   Forum dyskusyjne o dużych możliwościach - instalator
+Summary(pl.UTF-8):	Forum dyskusyjne o dużych możliwościach - instalator
 Group:		Applications/Databases/Interfaces
 Requires:	phpBB
 
