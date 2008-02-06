@@ -2,7 +2,7 @@ Summary:	A feature-rich PHP discussion board
 Summary(pl.UTF-8):	Forum dyskusyjne o dużych możliwościach
 Name:		phpBB
 Version:	2.0.21
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://dl.sourceforge.net/phpbb/%{name}-%{version}.tar.bz2
@@ -126,52 +126,6 @@ echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!
 
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
-
-%triggerpostun -- %{name} <= 2.0.10-1
-for i in `grep -lr "/home/\(services/\)*httpd/html/phpBB" /etc/httpd/*`; do
-	cp $i $i.backup
-	sed -i -e "s#/home/httpd/html/phpBB#%{_appdir}#g" $i
-	sed -i -e "s#/home/services/httpd/html/phpBB#%{_appdir}#g" $i
-	echo "File changed by trigger: $i (backup: $i.backup)"
-done
-
-%triggerpostun -- %{name} < 2.0.19-0.5
-# rescue app config from various old locations
-for i in config.php favicon.ico robots.txt; do
-	if [ -f /home/services/httpd/html/phpBB/$i.rpmsave ]; then
-	    mv -f %{_sysconfdir}/$i{,.rpmnew}
-	    mv -f /home/services/httpd/html/phpBB/$i.rpmsave %{_sysconfdir}/$i
-	fi
-done
-
-for i in config.php favicon.ico robots.txt; do
-	if [ -f /home/httpd/html/phpBB/$i.rpmsave ]; then
-	    mv -f %{_sysconfdir}/$i{,.rpmnew}
-	    mv -f /home/httpd/html/phpBB/$i.rpmsave %{_sysconfdir}/$i
-	fi
-done
-
-for i in config.php favicon.ico robots.txt; do
-	if [ -f /etc/%{name}/$i.rpmsave ]; then
-	    mv -f %{_sysconfdir}/$i{,.rpmnew}
-	    mv -f /etc/%{name}/$i.rpmsave %{_sysconfdir}/$i
-    fi
-done
-
-# nuke very-old config location (this mostly for Ra)
-if [ -f /etc/httpd/httpd.conf ]; then
-	sed -i -e "/^Include.*%{name}.conf/d" /etc/httpd/httpd.conf
-fi
-
-# migrate from httpd (apache2) config dir
-if [ -f /etc/httpd/%{name}.conf.rpmsave ]; then
-	cp -f %{_sysconfdir}/httpd.conf{,.rpmnew}
-	mv -f /etc/httpd/%{name}.conf.rpmsave %{_sysconfdir}/httpd.conf
-fi
-
-rm -f /etc/httpd/httpd.conf/99_%{name}.conf
-/usr/sbin/webapp register httpd %{_webapp}
-%service -q httpd reload
 
 %files
 %defattr(644,root,root,755)
