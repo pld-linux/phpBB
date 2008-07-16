@@ -146,8 +146,11 @@ echo "Remember to uninstall %{name}-install after initiation/upgrade of %{name}!
 %{_appdir}/includes
 %dir %{_appdir}/templates
 %{_appdir}/templates/index.htm
+%dir %{_appdir}/templates/subSilver
 %{_appdir}/templates/subSilver/*.*
+%dir %{_appdir}/templates/subSilver/admin
 %{_appdir}/templates/subSilver/admin/*.*
+%dir %{_appdir}/templates/subSilver/images
 %{_appdir}/templates/subSilver/images/*.*
 %dir %{_appdir}/language
 %{_appdir}/language/index.htm
